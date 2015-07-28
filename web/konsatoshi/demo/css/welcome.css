@@ -1,0 +1,109 @@
+/*  将全网页字体设置成微软雅黑*/
+body{
+/*    font-family:"Microsoft YaHei","微软雅黑","SimSun","宋体";*/
+    font-family: Helvetica,Arial,sans-serif;
+}
+/*  将语言顶栏 float: right*/
+div#language{
+    width: 100%;
+    float: left;
+}
+h4{
+    text-align: center;
+}
+
+#language a{
+    float: right;
+}
+/*设置弹出的语言提示框与顶部的距离*/
+.modal-dialog{
+    padding-top: 110px;
+}
+      
+/*  以下三条 css 控制content的高度，使之与 header 的 div 高度匹配，底下不会有白条*/  
+#modal-container-911855 div.modal-content{
+    height: 57px;
+}
+#modal-container-911856 div.modal-content{
+    height: 57px;
+}
+#modal-container-911857 div.modal-content{
+    height: 57px;
+}
+/*  设置语言按钮一般状态的字体颜色*/
+.btn{
+    color: #999;
+}
+/*  未成功，设置 a 的行高，本来是想让文字连接充满整个按钮，使得鼠标移到按钮上的任何部位都能触发*/
+a#dianjijinru {
+    line-height: 10px;
+    color: #999;
+    font-family: Helvetica, Arial, sans-serif;
+    transition: color 0.4s;
+}
+a#dianjijinru button {
+    display: block;
+    margin: 3px auto;
+    width: 200px!important;
+    height: 55px;
+    font-size: 20px;
+}
+/* 设置按钮的 transition */
+.btn-default {
+    transition: border-color 0.4s, background-color 0.4s;
+}
+/*  设置语言链接的宽度,如果宽度设置为 70px 的话，english 悬停时会有字体偏移效果，其他两个没有，原因不明，故设置为 74px，刚刚好*/
+a{
+    width: 74px;
+    transition: color 0.4s;
+}
+/*  取消所有 a 中 bootstrap.css 的悬停样式中的左边线效果，并设置悬停时为纯黑*/
+a:hover {
+/*    border: 0px solid black;*/
+    color: black !important;
+}
+/*  取消默认状态下 a 的下划线*/
+a:link {
+    text-decoration: none;
+} 
+/*  设置视频样式*/
+#div-video {
+    display: block;
+    width: 100%;
+    float: left;
+/*          min-height: 800px;*/
+}
+video {
+    width: 100%;
+    display: block;
+    float: left;
+    background-color: black;
+}
+/*  调整 button 的高度及字体大小*/
+#div-button {
+    width: 100%;
+    float: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
