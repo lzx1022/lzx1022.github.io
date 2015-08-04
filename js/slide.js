@@ -49,14 +49,16 @@
             };
 
             // 2.2. 生成 <ol> 按钮组
-            for (var i = 1; i < count + 1; i++) {
-                (function() {
-                    var liEl = document.createElement('li');
-                    liEl.textContent = i;
-                    slideBoxOlEl.appendChild(liEl);
-                })(i);
-            }
-            slideBox.appendChild(slideBoxOlEl);
+            (function() {
+                for (var i = 1; i < count + 1; i++) {
+                    (function() {
+                        var liEl = document.createElement('li');
+                        liEl.textContent = i;
+                        slideBoxOlEl.appendChild(liEl);
+                    })(i);
+                }
+                slideBox.appendChild(slideBoxOlEl);
+            })();
             // 初始化状态
             changeState();
 
