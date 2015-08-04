@@ -98,6 +98,6 @@
     } else if (typeof define === 'function' && define.amd) {
         define(function(){ return api; });
     } else {
-        this.slideBox = api;
+        this.SlideBox = api;
     }
 })();
