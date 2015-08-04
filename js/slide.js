@@ -26,7 +26,7 @@
             if (childEls[i] === el) return i;
         }
     }
-    // 1.3. 改变状态的方法
+    // 1.3. 改变状态
     function changeState(OlLiEls, UlEl, curIndex) {
         // 给予目标按钮选中效果
         OlLiEls[curIndex].className = 'activeli';
@@ -39,7 +39,7 @@
     var api = {
         slide: function(slideClassName) {
 
-            // 2.1. 定义变量和方法
+            // 2.1. 定义变量
             var currentIndex = 0,
                 slideBox = document.querySelector(slideClassName),
                 slideBoxUlEl = slideBox.getElementsByTagName('ul')[0],
