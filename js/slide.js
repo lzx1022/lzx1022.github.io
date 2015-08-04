@@ -27,11 +27,11 @@
         }
     }
     // 1.3. 改变状态
-    function changeState(OlLiEls, UlEl, curIndex) {
+    function changeState(lis, ul, index) {
         // 给予目标按钮选中效果
-        OlLiEls[curIndex].className = 'activeli';
+        lis[index].className = 'activeli';
         // 切换图片
-        UlEl.style.top = -curIndex*50 + 'px';
+        ul.style.top = -index*50 + 'px';
     };
 
 // 2. api ---------------------------------------------------------------------
@@ -56,8 +56,6 @@
                 }
                 slideBox.appendChild(slideBoxOlEl);
             })();
-            // 初始化状态
-            changeState(slideBoxOlLiEls, slideBoxUlEl, currentIndex);
 
             // 2.3. 设定轮播效果
             // setInterval handler
@@ -68,6 +66,8 @@
                 currentIndex = currentIndex < count - 1 ? currentIndex + 1 : 0;
                 changeState(slideBoxOlLiEls, slideBoxUlEl, currentIndex);
             };
+            // 初始化状态
+            changeState(slideBoxOlLiEls, slideBoxUlEl, currentIndex);
             // 设定初始的循环播放
             var intervalId = setInterval(setIntervalHandler, 3000);
 
@@ -82,11 +82,13 @@
             });
             // 2.4.3 click 切换状态
             EventUtil.addHandler(slideBoxOlEl, 'click', function(e) {
-                slideBoxOlLiEls[currentIndex].className = '';
-                // 获取点击按钮的索引
                 event = EventUtil.getEvent(e);
-                currentIndex = getIndex(EventUtil.getTarget(event));
-                changeState(slideBoxOlLiEls, slideBoxUlEl, currentIndex);
+                var target = EventUtil.getTarget(event);
+                if (target.tagName === 'LI') {
+                    slideBoxOlLiEls[currentIndex].className = '';
+                    currentIndex = getIndex(target);
+                    changeState(slideBoxOlLiEls, slideBoxUlEl, currentIndex);
+                }
             });
         }
     };
