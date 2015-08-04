@@ -32,7 +32,7 @@
     var api = {
         slide: function(slideClassName) {
 
-            // 2.1. 初始化
+            // 2.1. 定义变量和方法
             var currentIndex = 0,
                 slideBox = document.querySelector(slideClassName),
                 slideBoxUlEl = slideBox.getElementsByTagName('ul')[0],
@@ -40,7 +40,7 @@
                 slideBoxOlEl = document.createElement('ol'),
                 slideBoxOlLiEls = slideBoxOlEl.getElementsByTagName('li');
 
-            // 定义改变状态的方法
+            // 改变状态的方法
             var changeState = function() {
                 // 给予目标按钮选中效果
                 slideBoxOlLiEls[currentIndex].className = 'activeli';
@@ -51,11 +51,9 @@
             // 2.2. 生成 <ol> 按钮组
             (function() {
                 for (var i = 1; i < count + 1; i++) {
-                    (function() {
-                        var liEl = document.createElement('li');
-                        liEl.textContent = i;
-                        slideBoxOlEl.appendChild(liEl);
-                    })(i);
+                    var liEl = document.createElement('li');
+                    liEl.textContent = i;
+                    slideBoxOlEl.appendChild(liEl);
                 }
                 slideBox.appendChild(slideBoxOlEl);
             })();
@@ -63,7 +61,6 @@
             changeState();
 
             // 2.3. 设定轮播效果
-            // 设定初始的循环播放
             // setInterval handler
             var setIntervalHandler = function() {
                 // 去掉当前按钮的选中效果
@@ -72,6 +69,7 @@
                 currentIndex = currentIndex < count - 1 ? currentIndex + 1 : 0;
                 changeState();
             };
+            // 设定初始的循环播放
             var intervalId = setInterval(setIntervalHandler, 3000);
 
             // 2.4. 绑定事件
