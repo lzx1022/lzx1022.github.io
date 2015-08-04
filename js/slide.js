@@ -26,6 +26,13 @@
             if (childEls[i] === el) return i;
         }
     }
+    // 1.3. 改变状态的方法
+    function changeState(OlLiEls, UlEl, curIndex) {
+        // 给予目标按钮选中效果
+        OlLiEls[curIndex].className = 'activeli';
+        // 切换图片
+        UlEl.style.top = -curIndex*50 + 'px';
+    };
 
 // 2. api ---------------------------------------------------------------------
 
@@ -40,14 +47,6 @@
                 slideBoxOlEl = document.createElement('ol'),
                 slideBoxOlLiEls = slideBoxOlEl.getElementsByTagName('li');
 
-            // 改变状态的方法
-            var changeState = function() {
-                // 给予目标按钮选中效果
-                slideBoxOlLiEls[currentIndex].className = 'activeli';
-                // 切换图片
-                slideBoxUlEl.style.top = -currentIndex*50 + 'px';
-            };
-
             // 2.2. 生成 <ol> 按钮组
             (function() {
                 for (var i = 1; i < count + 1; i++) {
@@ -58,7 +57,7 @@
                 slideBox.appendChild(slideBoxOlEl);
             })();
             // 初始化状态
-            changeState();
+            changeState(slideBoxOlLiEls, slideBoxUlEl, currentIndex);
 
             // 2.3. 设定轮播效果
             // setInterval handler
@@ -67,7 +66,7 @@
                 slideBoxOlLiEls[currentIndex].className = '';
                 // 判断目前轮播到第几个按钮
                 currentIndex = currentIndex < count - 1 ? currentIndex + 1 : 0;
-                changeState();
+                changeState(slideBoxOlLiEls, slideBoxUlEl, currentIndex);
             };
             // 设定初始的循环播放
             var intervalId = setInterval(setIntervalHandler, 3000);
@@ -87,7 +86,7 @@
                 // 获取点击按钮的索引
                 event = EventUtil.getEvent(e);
                 currentIndex = getIndex(EventUtil.getTarget(event));
-                changeState();
+                changeState(slideBoxOlLiEls, slideBoxUlEl, currentIndex);
             });
         }
     };
