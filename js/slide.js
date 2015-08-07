@@ -22,7 +22,7 @@
     function getIndex(el) {
         var parentEl = el.parentNode,
             childEls = parentEl.getElementsByTagName('li');
-        for (var i = 0; i < childEls.length; i++) {
+        for (var i = 0,  len = childEls.length; i < len; i++) {
             if (childEls[i] === el) return i;
         }
     }
@@ -102,3 +102,5 @@
         this.SlideBox = api;
     }
 })();
+
+
