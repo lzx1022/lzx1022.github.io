@@ -85,7 +85,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
         var invitedPersonsLen = invitedPersons.length,
             inviteStatusSpanEl = document.getElementsByClassName('invite-status')[0],
             innerHtmlText = '';
-        // 因为这里考虑到要处理 2 个姓名之间的 '、'，所以采用 switch，这样比用 if 判断更加清晰
+        // 因为这里考虑到要处理 2 个姓名之间的「、」，所以采用 switch，这样比用 if 判断更加清晰
         switch (invitedPersonsLen) {
             case 0:
                 break;
