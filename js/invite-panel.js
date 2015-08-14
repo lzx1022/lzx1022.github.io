@@ -64,6 +64,7 @@ var invitePanel = document.getElementById('invite-panel');
 invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><input placeholder="搜索你想邀请的人" type="text"><i></i></span><span class="invite-status"></span></div><h3>推荐人选</h3><ul class="invite-suggest"></ul><div class="invite-arrow"><a href="">上一页</a><a href="">下一页</a></div>';
 
 // 2.1. 邀请按钮对应的功能  -------------------------------------------------------
+
 (function() {
 
     // 2.1.1. 定义变量和方法
@@ -128,6 +129,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
 })();
 
 // 2.2. 翻页功能  ---------------------------------------------------------------
+
 (function() {
 
     // 2.2.1. 初始化，根据 json 生成 DOM
@@ -215,7 +217,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
         inviteArrow = invitePanel.getElementsByClassName('invite-arrow')[0],
         arrows = inviteArrow.getElementsByTagName('a');
 
-    // 初始化：邀请人列表和上下页状态
+    // 初始化：邀请人按钮状态和上下页状态
     (function() {
         for (var i = 0; i < 4; i++) {
             liEls[i].style.display = 'list-item';
@@ -257,11 +259,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
                         liEls[i].style.display = 'none';
                     }
                     currentGroupCount ++;
-                    if (currentGroupCount === totalGroupCount) {
-                        len = reminderNum + 4*(currentGroupCount-1);
-                    } else {
-                        len = 4*currentGroupCount;
-                    }
+                    len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
                     for (var j = 4*(currentGroupCount-1); j < len; j++) {
                         liEls[j].style.display = 'list-item';
                     }
@@ -274,11 +272,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
             } else if (target.textContent === '上一页' && currentGroupCount !== 1) {
                 // 切换显示的 recommended persons 列表
                 (function() {
-                    if (currentGroupCount === totalGroupCount) {
-                        len = reminderNum + 4*(currentGroupCount-1);
-                    } else {
-                        len = 4*currentGroupCount;
-                    }
+                    len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
                     for (var i = 4*(currentGroupCount-1); i < len; i++) {
                         liEls[i].style.display = 'none';
                     }
