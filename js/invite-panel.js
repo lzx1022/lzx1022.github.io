@@ -59,6 +59,7 @@ function trigger(el, type) {
 // 2. 功能逻辑   ----------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
+// 2.0. 初始化
 var invitePanel = document.getElementById('invite-panel');
 invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><input placeholder="搜索你想邀请的人" type="text"><i></i></span><span class="invite-status"></span></div><h3>推荐人选</h3><ul class="invite-suggest"></ul><div class="invite-arrow"><a href="">上一页</a><a href="">下一页</a></div>';
 
@@ -222,7 +223,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
     })();
     arrows[0].className = 'arrow-disabled';
 
-    // 初始化：JSON 数据中已经受到邀请的人，模拟 click
+    // 初始化：JSON 数据中已经受到邀请的人，模拟触发 click
     (function() {
         var btns = invitePanel.getElementsByTagName('button'),
             invitedLen = persons.invited.length,
