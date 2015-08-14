@@ -48,10 +48,10 @@ function nextElementSibling(el) {
 
 // 1.4 自动触发事件的 trigger 方法，模拟 $().trigger()
 function trigger(el, type) {
-    var event = document.createEvent('HTMLEvents');
-    event.initEvent(type, true, true);
-    event.eventName = type;
-    event.target = el;
+    var event = new CustomEvent(type, {
+        bubbles: true,
+        cancelable: false
+    });
     el.dispatchEvent(event);
 }
 
@@ -60,6 +60,7 @@ function trigger(el, type) {
 // ----------------------------------------------------------------------------
 
 var invitePanel = document.getElementById('invite-panel');
+invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><input placeholder="搜索你想邀请的人" type="text"><i></i></span><span class="invite-status"></span></div><h3>推荐人选</h3><ul class="invite-suggest"></ul><div class="invite-arrow"><a href="">上一页</a><a href="">下一页</a></div>';
 
 // 2.1. 邀请按钮对应的功能  -------------------------------------------------------
 (function() {
