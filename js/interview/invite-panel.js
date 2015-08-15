@@ -122,13 +122,14 @@ ajax('../../js/interview/invite_panel.json', {
             // 2.1.1. 定义变量和方法
 
             // 定义改变顶部邀请提示语的方法，这是最核心的方法
-            var changeTitle = function(target, choice) {
+            var changeAll = function(target, choice) {
                 var aEl1 = target.nextElementSibling || nextElementSibling(target),
                     aEl2 = target.previousElementSibling || previousElementSibling(target),
                     personName;
                 personName = aEl1 ? aEl1.textContent : aEl2.textContent;
 
                 // change-1：根据 choice 更新 persons 对象
+
                 switch (choice) {
                     case 'invite':
                         (function() {
@@ -153,9 +154,9 @@ ajax('../../js/interview/invite_panel.json', {
                 }
 
                 // change-2：更新顶部的邀请的提示语
-                var innerHtmlText = '',
-                    coverCardText = '<div><ul>';
 
+                var innerHtmlText = '',
+                    coverCardText = '<div><i></i><ul>';
                 // 拼接 coverCard 字符串
                 (function() {
                     for (var i = 0; i < persons.invited.length; i++) {
@@ -163,7 +164,6 @@ ajax('../../js/interview/invite_panel.json', {
                     }
                 })();
                 coverCardText += '</ul></div>';
-
                 // 拼接整个 invite status 字符串
                 if (persons.invited.length > 0) {
                     if (persons.invited.length > 2) {
@@ -176,8 +176,8 @@ ajax('../../js/interview/invite_panel.json', {
                 }
                 inviteStatus.innerHTML = innerHtmlText;
 
-                // 如果 persons.invited.length > 0 即制作出 invited-status 内部的元素，则添加 mouseover / mouseout / click 事件
-                // 这两个方法必须写在 changeAll() 方法里面，因为 mouseover 必须根据文本的范围来判断，而文本本身是一只在更新的
+                // 绑定事件：如果 persons.invited.length > 0 即制作出 invited-status 内部的元素，则添加 mouseover / mouseout / click 事件
+                    // 这两个方法必须写在 changeAll() 方法里面，因为 mouseover 必须根据文本的范围来判断，而文本本身是一只在更新的
                 if (persons.invited.length > 0) {
                     (function() {
                         var spanEl = inviteStatus.querySelector('span'),
@@ -214,7 +214,7 @@ ajax('../../js/interview/invite_panel.json', {
                                         btnEls[i].textContent = '邀请回答';
                                     }
                                 }
-                                changeTitle(target, 'uninvite');
+                                changeAll(target, 'uninvite');
                             }
                         });
 
@@ -232,12 +232,12 @@ ajax('../../js/interview/invite_panel.json', {
                         case 'btn-recommended':
                             target.className = 'btn-invited';
                             target.textContent = '收回邀请';
-                            changeTitle(target, 'invite');
+                            changeAll(target, 'invite');
                             break;
                         case 'btn-invited':
                             target.className = 'btn-recommended';
                             target.textContent = '邀请回答';
-                            changeTitle(target, 'uninvite');
+                            changeAll(target, 'uninvite');
                             break;
                         default:
                             break;
