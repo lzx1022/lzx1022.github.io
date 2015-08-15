@@ -133,15 +133,14 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
 (function() {
     // 获取 json 文件生成 persons 对象
     var persons;
-    // $.ajaxSettings.async = false;
+    $.ajaxSettings.async = false;
     $.getJSON('../../js/interview/invite_panel.json', function(data) {
         persons = data;
     });
 
     // 2.2.1. 初始化，根据 json 生成 DOM
     (function() {
-        var innerHtmlText,
-            invitedLen = persons.invited.length,
+        var invitedLen = persons.invited.length,
             recommendedLen = persons.recommended.length,
             avatarUrl,
             personName,
@@ -195,8 +194,8 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
                 if (aEl.textContent === persons.invited[i].name) {
                     trigger(btns[j], 'click');
                 }
-            };
-        };
+            }
+        }
     })();
 
     // 绑定事件
@@ -246,8 +245,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
                     arrows[0].className = 'arrow-disabled';
                 }
             }
-        };
-
+        }
     });
 })();
 
