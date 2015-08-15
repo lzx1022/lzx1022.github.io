@@ -41,10 +41,10 @@ function nextElementSibling(el) {
     do { el = el.nextSibling; } while ( el && el.nodeType !== 1 );
     return el;
 }
-// function prevElementSibling(el) {
-//     do { el = el.previousSibling; } while ( el && el.nodeType !== 1 );
-//     return el;
-// }
+function previousElementSibling(el) {
+    do { el = el.previousSibling; } while ( el && el.nodeType !== 1 );
+    return el;
+}
 
 // 1.4 自动触发事件的 trigger 方法，模拟 $().trigger()
 function trigger(el, type) {
@@ -76,83 +76,22 @@ function ajax(url, opts){
 // 2. 功能逻辑   ----------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
-// 2.0. 初始化
-var invitePanel = document.getElementById('invite-panel');
-invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><input placeholder="搜索你想邀请的人" type="text"><i></i></span><span class="invite-status"></span></div><h3>推荐人选</h3><ul class="invite-suggest"></ul><div class="invite-arrow"><a href="">上一页</a><a href="">下一页</a></div>';
-
-// 2.1. 邀请按钮对应的功能  -------------------------------------------------------
-
-(function() {
-
-    // 2.1.1. 定义变量和方法
-    var invitedPersons = [];
-    // 定义改变顶部邀请提示语的方法
-    var changeTitle = function(target, choice) {
-        var aEl = target.nextElementSibling || nextElementSibling(target);
-        var personName = aEl.textContent;
-        // 根据 choice 判断该向 invitedPersons 中推入数据还是移出
-        switch (choice) {
-            case 'invite':
-                invitedPersons.unshift(personName);
-                break;
-            case 'uninvite':
-                removeItemByValue(invitedPersons, personName);
-                break;
-            default:
-                break;
-        }
-        // 更新顶部的邀请的提示语
-        var invitedPersonsLen = invitedPersons.length,
-            inviteStatusSpanEl = document.getElementsByClassName('invite-status')[0],
-            innerHtmlText = '';
-        // 因为这里考虑到要处理 2 个姓名之间的「、」，所以采用 switch，这样比用 if 判断更加清晰
-        switch (invitedPersonsLen) {
-            case 0:
-                break;
-            case 1:
-                innerHtmlText += '您已邀请 <span><a href="">' + invitedPersons[0] + '</a></span>';
-                break;
-            case 2:
-                innerHtmlText += '您已邀请 <span><a href="">' + invitedPersons[0] + '</a>、<a href="">' + invitedPersons[1] + '</a></span>';
-                break;
-            default:
-                innerHtmlText += '您已邀请 <span><a href="">' + invitedPersons[0] + '</a>、<a href="">' + invitedPersons[1] + '</a></span> 等 ' + invitedPersonsLen + ' 人';
-                break;
-        }
-        inviteStatusSpanEl.innerHTML = innerHtmlText;
-    };
-
-    // 2.1.2. 绑定 button 的 click 事件
-    EventUtil.addHandler(invitePanel, 'click', function(e) {
-        event = EventUtil.getEvent(e);
-        var target = EventUtil.getTarget(event);
-
-        if (target.tagName === 'BUTTON') {
-            switch (target.className) {
-                case 'btn-recommended':
-                    target.className = 'btn-invited';
-                    target.textContent = '收回邀请';
-                    changeTitle(target, 'invite');
-                    break;
-                case 'btn-invited':
-                    target.className = 'btn-recommended';
-                    target.textContent = '邀请回答';
-                    changeTitle(target, 'uninvite');
-                    break;
-                default:
-                    break;
-            }
-        }
-    });
-})();
-
-// 2.2. 翻页功能  ---------------------------------------------------------------
-
 ajax('../../js/interview/invite_panel.json', {
     method: 'GET',
     success: function(response) {
-        var persons = JSON.parse(response);
-        // 2.2.1. 初始化，根据 json 生成 DOM
+
+    // 2.0. 初始化
+        var jsonObj = JSON.parse(response),
+            persons = {
+                invited: [],
+                recommended: (jsonObj.recommended).concat(jsonObj.invited)
+            },
+            invitePanel = document.getElementById('invite-panel');
+        invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><input placeholder="搜索你想邀请的人" type="text"><i></i></span><span class="invite-status"></span></div><h3>推荐人选</h3><ul class="invite-suggest"></ul><div class="invite-arrow"><a href="">上一页</a><a href="">下一页</a></div>';
+        var inviteStatus = invitePanel.getElementsByClassName('invite-status')[0],
+            inviteSuggest = invitePanel.getElementsByClassName('invite-suggest')[0];
+
+        // 初始化：生成邀请人列表
         (function() {
             var invitedLen = persons.invited.length,
                 recommendedLen = persons.recommended.length,
@@ -174,14 +113,159 @@ ajax('../../js/interview/invite_panel.json', {
                 bio = persons.recommended[j].bio;
                 innerHtmlText += '<li><div><a href=""><img src="../../img/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
             }
-            // console.log(innerHtmlText);
             inviteSuggest.innerHTML = innerHtmlText;
         })();
 
+    // 2.1. 邀请按钮对应的功能  ---------------------------------------------------
+
+        (function() {
+            // 2.1.1. 定义变量和方法
+
+            // 定义改变顶部邀请提示语的方法，这是最核心的方法
+            var changeTitle = function(target, choice) {
+                var aEl1 = target.nextElementSibling || nextElementSibling(target),
+                    aEl2 = target.previousElementSibling || previousElementSibling(target),
+                    personName;
+                personName = aEl1 ? aEl1.textContent : aEl2.textContent;
+
+                // change-1：根据 choice 更新 persons 对象
+                switch (choice) {
+                    case 'invite':
+                        (function() {
+                            for (var i = 0; i < persons.recommended.length; i++) {
+                                if (persons.recommended[i].name === personName) break;
+                            }
+                            (persons.invited).unshift(persons.recommended[i]);
+                            removeItemByValue(persons.recommended, persons.recommended[i]);
+                        })();
+                        break;
+                    case 'uninvite':
+                        (function() {
+                            for (var i = 0; i < persons.invited.length; i++) {
+                                if (persons.invited[i].name === personName) break;
+                            }
+                            (persons.recommended).unshift(persons.invited[i]);
+                            removeItemByValue(persons.invited, persons.invited[i]);
+                        })();
+                        break;
+                    default:
+                        break;
+                }
+
+                // change-2：更新顶部的邀请的提示语
+                var innerHtmlText = '',
+                    coverCardText = '<div><ul>';
+
+                // 拼接 coverCard 字符串
+                (function() {
+                    for (var i = 0; i < persons.invited.length; i++) {
+                        coverCardText += '<li><a><img src="../../img/interview/zhihu/invite-panel/' + (persons.invited[i].avatarUrl).slice((persons.invited[i].avatarUrl).indexOf('/')) + '" alt=""></a><a>' + persons.invited[i].name + '</a><button>收回邀请</button></li>';
+                    }
+                })();
+                coverCardText += '</ul></div>';
+
+                // 拼接整个 invite status 字符串
+                if (persons.invited.length > 0) {
+                    if (persons.invited.length > 2) {
+                        innerHtmlText += '您已邀请 <span><a href="">' + persons.invited[0].name + '</a>、<a href="">' + persons.invited[1].name + '</a>' + coverCardText + '</span> 等 ' + persons.invited.length + ' 人';
+                    } else if (persons.invited.length === 2) {
+                        innerHtmlText += '您已邀请 <span><a href="">' + persons.invited[0].name + '</a>、<a href="">' + persons.invited[1].name + '</a>' + coverCardText + '</span>';
+                    } else {
+                        innerHtmlText += '您已邀请 <span><a href="">' + persons.invited[0].name + '</a>' + coverCardText + '</span>';
+                    }
+                }
+                inviteStatus.innerHTML = innerHtmlText;
+
+                // 如果 persons.invited.length > 0 即制作出 invited-status 内部的元素，则添加 mouseover / mouseout / click 事件
+                // 这两个方法必须写在 changeAll() 方法里面，因为 mouseover 必须根据文本的范围来判断，而文本本身是一只在更新的
+                if (persons.invited.length > 0) {
+                    (function() {
+                        var spanEl = inviteStatus.querySelector('span'),
+                            coverCard = spanEl.querySelector('div');
+
+                        // 悬浮框的 mouseover / mouseout
+                            // 因为需要让悬浮框保持状态，所以在 CSS 里增加了文字部分的上下 padding，扩大 hover 范围
+                        EventUtil.addHandler(spanEl, 'mouseover', function(e) {
+                            coverCard.style.display = 'block';
+                        });
+                        EventUtil.addHandler(spanEl, 'mouseout', function(e) {
+                            coverCard.style.display = 'none';
+                        });
+                        EventUtil.addHandler(coverCard, 'mouseover', function(e) {
+                            coverCard.style.display = 'block';
+                        });
+                        EventUtil.addHandler(coverCard, 'mouseout', function(e) {
+                            coverCard.style.display = 'none';
+                        });
+
+                        // 悬浮框里 button 的 click
+                        EventUtil.addHandler(coverCard, 'click', function(e) {
+                            event = EventUtil.getEvent(e);
+                            var target = EventUtil.getTarget(event);
+
+                            if (target.tagName === 'BUTTON') {
+                                var btnEls = inviteSuggest.getElementsByTagName('button'),
+                                    aEl1, aEl2;
+                                for (var i = 0; i < btnEls.length; i++) {
+                                    aEl1 = btnEls[i].nextElementSibling || nextElementSibling(btnEls[i]);
+                                    aEl2 = target.previousElementSibling || previousElementSibling(target);
+                                    if (aEl1.textContent === aEl2.textContent) {
+                                        btnEls[i].className = 'btn-recommended';
+                                        btnEls[i].textContent = '邀请回答';
+                                    }
+                                }
+                                changeTitle(target, 'uninvite');
+                            }
+                        });
+
+                    })();
+                }
+            };
+
+            // 2.1.2. 绑定事件：邀请人列表里 button 上的 click
+            EventUtil.addHandler(invitePanel, 'click', function(e) {
+                event = EventUtil.getEvent(e);
+                var target = EventUtil.getTarget(event);
+
+                if (target.tagName === 'BUTTON') {
+                    switch (target.className) {
+                        case 'btn-recommended':
+                            target.className = 'btn-invited';
+                            target.textContent = '收回邀请';
+                            changeTitle(target, 'invite');
+                            break;
+                        case 'btn-invited':
+                            target.className = 'btn-recommended';
+                            target.textContent = '邀请回答';
+                            changeTitle(target, 'uninvite');
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+
+            // 初始化：JSON 数据中已经受到邀请的人，模拟触发 click
+            // (function() {
+            //     var btns = invitePanel.getElementsByTagName('button'),
+            //         invitedLen = persons.invited.length,
+            //         aEl;
+            //     for (var i = 0; i < invitedLen; i++) {
+            //         for (var j = 0; j < btns.length; j++) {
+            //             aEl = btns[j].nextElementSibling || nextElementSibling(btns[j]);
+            //             if (aEl.textContent === persons.invited[i].name) {
+            //                 trigger(btns[j], 'click');
+            //             }
+            //         }
+            //     }
+            // })();
+        })();
+
+    // 2.2. 翻页功能  -----------------------------------------------------------
+
         // 2.2.2. 完成翻页逻辑
         // 定义变量
-        var inviteSuggest = invitePanel.getElementsByClassName('invite-suggest')[0],
-            liEls = inviteSuggest.getElementsByTagName('li'),
+        var liEls = inviteSuggest.getElementsByTagName('li'),
             // 以下代码只考虑 count > 4 的情况
             count = liEls.length,
             totalGroupCount = Math.ceil(count/4),
@@ -196,21 +280,6 @@ ajax('../../js/interview/invite_panel.json', {
             }
         })();
         arrows[0].className = 'arrow-disabled';
-
-        // 初始化：JSON 数据中已经受到邀请的人，模拟触发 click
-        (function() {
-            var btns = invitePanel.getElementsByTagName('button'),
-                invitedLen = persons.invited.length,
-                aEl;
-            for (var i = 0; i < invitedLen; i++) {
-                for (var j = 0; j < btns.length; j++) {
-                    aEl = btns[j].nextElementSibling || nextElementSibling(btns[j]);
-                    if (aEl.textContent === persons.invited[i].name) {
-                        trigger(btns[j], 'click');
-                    }
-                }
-            }
-        })();
 
         // 绑定事件
         EventUtil.addHandler(inviteArrow, 'click', function(e){
