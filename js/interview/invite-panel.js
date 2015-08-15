@@ -69,10 +69,11 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
 
     // 2.1.1. 定义变量和方法
     var invitedPersons = [];
+    // 定义改变顶部邀请提示语的方法
     var changeTitle = function(target, choice) {
         var aEl = target.nextElementSibling || nextElementSibling(target);
         var personName = aEl.textContent;
-
+        // 根据 choice 判断该向 invitedPersons 中推入数据还是移出
         switch (choice) {
             case 'invite':
                 invitedPersons.unshift(personName);
@@ -83,7 +84,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
             default:
                 break;
         }
-
+        // 更新顶部的邀请的提示语
         var invitedPersonsLen = invitedPersons.length,
             inviteStatusSpanEl = document.getElementsByClassName('invite-status')[0],
             innerHtmlText = '';
