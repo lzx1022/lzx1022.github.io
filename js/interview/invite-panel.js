@@ -55,6 +55,23 @@ function trigger(el, type) {
     el.dispatchEvent(event);
 }
 
+// 1.5 模拟 $.ajax()
+function ajax(url, opts){
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+        var completed = 4;
+        if(xhr.readyState === completed){
+            if(xhr.status === 200){
+                opts.success(xhr.responseText, xhr);
+            }else{
+                opts.error(xhr.responseText, xhr);
+            }
+        }
+    };
+    xhr.open(opts.method, url, true);
+    xhr.send(opts.data);
+}
+
 // ----------------------------------------------------------------------------
 // 2. 功能逻辑   ----------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -131,118 +148,120 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
 
 // 2.2. 翻页功能  ---------------------------------------------------------------
 
-$.getJSON('../../js/interview/invite_panel.json', function(data) {
-    var persons = data;
+ajax('../../js/interview/invite_panel.json', {
+    method: 'GET',
+    success: function(response) {
+        var persons = JSON.parse(response);
+        // 2.2.1. 初始化，根据 json 生成 DOM
+        (function() {
+            var invitedLen = persons.invited.length,
+                recommendedLen = persons.recommended.length,
+                avatarUrl,
+                personName,
+                bio,
+                innerHtmlText = '',
+                inviteSuggest = invitePanel.getElementsByClassName('invite-suggest')[0];
 
-    // 2.2.1. 初始化，根据 json 生成 DOM
-    (function() {
-        var invitedLen = persons.invited.length,
-            recommendedLen = persons.recommended.length,
-            avatarUrl,
-            personName,
-            bio,
-            innerHtmlText = '',
-            inviteSuggest = invitePanel.getElementsByClassName('invite-suggest')[0];
+            for (var i = 0; i < invitedLen; i++) {
+                avatarUrl = persons.invited[i].avatarUrl;
+                personName = persons.invited[i].name;
+                bio = persons.invited[i].bio;
+                innerHtmlText += '<li><div><a href=""><img src="../../img/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
+            }
+            for (var j = 0; j < recommendedLen; j++) {
+                avatarUrl = persons.recommended[j].avatarUrl;
+                personName = persons.recommended[j].name;
+                bio = persons.recommended[j].bio;
+                innerHtmlText += '<li><div><a href=""><img src="../../img/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
+            }
+            // console.log(innerHtmlText);
+            inviteSuggest.innerHTML = innerHtmlText;
+        })();
 
-        for (var i = 0; i < invitedLen; i++) {
-            avatarUrl = persons.invited[i].avatarUrl;
-            personName = persons.invited[i].name;
-            bio = persons.invited[i].bio;
-            innerHtmlText += '<li><div><a href=""><img src="../../img/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
-        }
-        for (var j = 0; j < recommendedLen; j++) {
-            avatarUrl = persons.recommended[j].avatarUrl;
-            personName = persons.recommended[j].name;
-            bio = persons.recommended[j].bio;
-            innerHtmlText += '<li><div><a href=""><img src="../../img/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
-        }
-        // console.log(innerHtmlText);
-        inviteSuggest.innerHTML = innerHtmlText;
-    })();
+        // 2.2.2. 完成翻页逻辑
+        // 定义变量
+        var inviteSuggest = invitePanel.getElementsByClassName('invite-suggest')[0],
+            liEls = inviteSuggest.getElementsByTagName('li'),
+            // 以下代码只考虑 count > 4 的情况
+            count = liEls.length,
+            totalGroupCount = Math.ceil(count/4),
+            currentGroupCount = 1,
+            inviteArrow = invitePanel.getElementsByClassName('invite-arrow')[0],
+            arrows = inviteArrow.getElementsByTagName('a');
 
-    // 2.2.2. 完成翻页逻辑
-    // 定义变量
-    var inviteSuggest = invitePanel.getElementsByClassName('invite-suggest')[0],
-        liEls = inviteSuggest.getElementsByTagName('li'),
-        // 以下代码只考虑 count > 4 的情况
-        count = liEls.length,
-        totalGroupCount = Math.ceil(count/4),
-        currentGroupCount = 1,
-        inviteArrow = invitePanel.getElementsByClassName('invite-arrow')[0],
-        arrows = inviteArrow.getElementsByTagName('a');
+        // 初始化：邀请人按钮状态和上下页状态
+        (function() {
+            for (var i = 0; i < 4; i++) {
+                liEls[i].style.display = 'list-item';
+            }
+        })();
+        arrows[0].className = 'arrow-disabled';
 
-    // 初始化：邀请人按钮状态和上下页状态
-    (function() {
-        for (var i = 0; i < 4; i++) {
-            liEls[i].style.display = 'list-item';
-        }
-    })();
-    arrows[0].className = 'arrow-disabled';
-
-    // 初始化：JSON 数据中已经受到邀请的人，模拟触发 click
-    (function() {
-        var btns = invitePanel.getElementsByTagName('button'),
-            invitedLen = persons.invited.length,
-            aEl;
-        for (var i = 0; i < invitedLen; i++) {
-            for (var j = 0; j < btns.length; j++) {
-                aEl = btns[j].nextElementSibling || nextElementSibling(btns[j]);
-                if (aEl.textContent === persons.invited[i].name) {
-                    trigger(btns[j], 'click');
+        // 初始化：JSON 数据中已经受到邀请的人，模拟触发 click
+        (function() {
+            var btns = invitePanel.getElementsByTagName('button'),
+                invitedLen = persons.invited.length,
+                aEl;
+            for (var i = 0; i < invitedLen; i++) {
+                for (var j = 0; j < btns.length; j++) {
+                    aEl = btns[j].nextElementSibling || nextElementSibling(btns[j]);
+                    if (aEl.textContent === persons.invited[i].name) {
+                        trigger(btns[j], 'click');
+                    }
                 }
             }
-        }
-    })();
+        })();
 
-    // 绑定事件
-    EventUtil.addHandler(inviteArrow, 'click', function(e){
-        event = EventUtil.getEvent(e);
-        var target = EventUtil.getTarget(event);
-        EventUtil.preventDefault(event);
+        // 绑定事件
+        EventUtil.addHandler(inviteArrow, 'click', function(e){
+            event = EventUtil.getEvent(e);
+            var target = EventUtil.getTarget(event);
+            EventUtil.preventDefault(event);
 
-        if (target.tagName === 'A') {
-            var len,
-                // 这里的 reminderNum 取总数的余数，如果被 4 整除则取 4
-                reminderNum = count%4 === 0 ? 4 : count%4;
+            if (target.tagName === 'A') {
+                var len,
+                    // 这里的 reminderNum 取总数的余数，如果被 4 整除则取 4
+                    reminderNum = count%4 === 0 ? 4 : count%4;
 
-            if (target.textContent === '下一页' && currentGroupCount !== totalGroupCount) {
-                // 切换显示的 recommended persons 列表
-                (function() {
-                    len = reminderNum + 4*currentGroupCount;
-                    for (var i = 4*(currentGroupCount-1); i < 4*currentGroupCount; i++) {
-                        liEls[i].style.display = 'none';
+                if (target.textContent === '下一页' && currentGroupCount !== totalGroupCount) {
+                    // 切换显示的 recommended persons 列表
+                    (function() {
+                        len = reminderNum + 4*currentGroupCount;
+                        for (var i = 4*(currentGroupCount-1); i < 4*currentGroupCount; i++) {
+                            liEls[i].style.display = 'none';
+                        }
+                        currentGroupCount++;
+                        len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
+                        for (var j = 4*(currentGroupCount-1); j < len; j++) {
+                            liEls[j].style.display = 'list-item';
+                        }
+                    })();
+                    // 设置 "上一页" "下一页" 状态
+                    arrows[0].className = '';
+                    if (currentGroupCount === totalGroupCount) {
+                        arrows[1].className = 'arrow-disabled';
                     }
-                    currentGroupCount++;
-                    len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
-                    for (var j = 4*(currentGroupCount-1); j < len; j++) {
-                        liEls[j].style.display = 'list-item';
+                } else if (target.textContent === '上一页' && currentGroupCount !== 1) {
+                    // 切换显示的 recommended persons 列表
+                    (function() {
+                        len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
+                        for (var i = 4*(currentGroupCount-1); i < len; i++) {
+                            liEls[i].style.display = 'none';
+                        }
+                        currentGroupCount--;
+                        for (var j = 4*(currentGroupCount-1); j < 4*currentGroupCount; j++) {
+                            liEls[j].style.display = 'list-item';
+                        }
+                    })();
+                    // 设置 "上一页" "下一页" 状态
+                    arrows[1].className = '';
+                    if (currentGroupCount === 1) {
+                        arrows[0].className = 'arrow-disabled';
                     }
-                })();
-                // 设置 "上一页" "下一页" 状态
-                arrows[0].className = '';
-                if (currentGroupCount === totalGroupCount) {
-                    arrows[1].className = 'arrow-disabled';
-                }
-            } else if (target.textContent === '上一页' && currentGroupCount !== 1) {
-                // 切换显示的 recommended persons 列表
-                (function() {
-                    len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
-                    for (var i = 4*(currentGroupCount-1); i < len; i++) {
-                        liEls[i].style.display = 'none';
-                    }
-                    currentGroupCount--;
-                    for (var j = 4*(currentGroupCount-1); j < 4*currentGroupCount; j++) {
-                        liEls[j].style.display = 'list-item';
-                    }
-                })();
-                // 设置 "上一页" "下一页" 状态
-                arrows[1].className = '';
-                if (currentGroupCount === 1) {
-                    arrows[0].className = 'arrow-disabled';
                 }
             }
-        }
-    });
+        });
+    }
 });
 
 })();
