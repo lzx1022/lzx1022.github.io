@@ -1,4 +1,18 @@
 (function() {
+// 目录：
+// 1. helpers
+//     1.1. EventUtil 主要为了兼容 IE8 的事件处理方法集
+//     1.2. removeItemByValue(arr, item)
+//     1.3. nextElementSibling(el) / previousElementSibling(el)
+//     1.4. trigger()
+//     1.5. ajax()
+
+// 2. 功能逻辑
+//     2.0. 初始化 invite-panel，并根据 json 生成邀请人列表
+//     2.1. 邀请按钮对应的一系列功能( click 邀请人列表 / hover 顶部邀请人提示文字 / click 悬浮框按钮)
+//     2.2. 翻页功能
+
+
 
 // ----------------------------------------------------------------------------
 //  1. helpers ----------------------------------------------------------------
@@ -116,12 +130,12 @@ ajax('../../js/interview/invite_panel.json', {
             inviteSuggest.innerHTML = innerHtmlText;
         })();
 
-    // 2.1. 邀请按钮对应的功能  ---------------------------------------------------
+    // 2.1. 邀请按钮对应的一系列功能  ---------------------------------------------------
 
         (function() {
             // 2.1.1. 定义变量和方法
 
-            // 定义改变顶部邀请提示语的方法，这是最核心的方法
+            // 定义改变顶部邀请提示语以及按钮状态的方法，这是最核心的方法
             var changeAll = function(target, choice) {
                 var aEl1 = target.nextElementSibling || nextElementSibling(target),
                     aEl2 = target.previousElementSibling || previousElementSibling(target),
@@ -217,7 +231,6 @@ ajax('../../js/interview/invite_panel.json', {
                                 changeAll(target, 'uninvite');
                             }
                         });
-
                     })();
                 }
             };
@@ -245,7 +258,7 @@ ajax('../../js/interview/invite_panel.json', {
                 }
             });
 
-            // 初始化：JSON 数据中已经受到邀请的人，模拟触发 click
+            // 初始化：遍历 JSON 数据中已经受到邀请的人，模拟触发 click
             // (function() {
             //     var btns = invitePanel.getElementsByTagName('button'),
             //         invitedLen = persons.invited.length,
