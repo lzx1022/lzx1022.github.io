@@ -131,13 +131,8 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
 
 // 2.2. 翻页功能  ---------------------------------------------------------------
 
-(function() {
-    // 获取 json 文件生成 persons 对象
-    var persons;
-    $.ajaxSettings.async = false;
-    $.getJSON('../../js/interview/invite_panel.json', function(data) {
-        persons = data;
-    });
+$.getJSON('../../js/interview/invite_panel.json', function(data) {
+    var persons = data;
 
     // 2.2.1. 初始化，根据 json 生成 DOM
     (function() {
@@ -217,7 +212,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
                     for (var i = 4*(currentGroupCount-1); i < 4*currentGroupCount; i++) {
                         liEls[i].style.display = 'none';
                     }
-                    currentGroupCount ++;
+                    currentGroupCount++;
                     len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
                     for (var j = 4*(currentGroupCount-1); j < len; j++) {
                         liEls[j].style.display = 'list-item';
@@ -235,7 +230,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
                     for (var i = 4*(currentGroupCount-1); i < len; i++) {
                         liEls[i].style.display = 'none';
                     }
-                    currentGroupCount --;
+                    currentGroupCount--;
                     for (var j = 4*(currentGroupCount-1); j < 4*currentGroupCount; j++) {
                         liEls[j].style.display = 'list-item';
                     }
@@ -248,6 +243,6 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
             }
         }
     });
-})();
+});
 
 })();
