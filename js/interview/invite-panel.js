@@ -134,7 +134,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
     // 获取 json 文件生成 persons 对象
     var persons;
     $.ajaxSettings.async = false;
-    $.getJSON('../../js/invite_panel.json', function(data) {
+    $.getJSON('../../js/interview/invite_panel.json', function(data) {
         persons = data;
     });
 
