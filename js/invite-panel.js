@@ -92,13 +92,13 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
             case 0:
                 break;
             case 1:
-                innerHtmlText += '您已邀请 <a href="">' + invitedPersons[0] + '</a></span>';
+                innerHtmlText += '您已邀请 <span><a href="">' + invitedPersons[0] + '</a></span>';
                 break;
             case 2:
-                innerHtmlText += '您已邀请 <a href="">' + invitedPersons[0] + '</a>、<a href="">' + invitedPersons[1] + '</a></span>';
+                innerHtmlText += '您已邀请 <span><a href="">' + invitedPersons[0] + '</a>、<a href="">' + invitedPersons[1] + '</a></span>';
                 break;
             default:
-                innerHtmlText += '您已邀请 <a href="">' + invitedPersons[0] + '</a>、<a href="">' + invitedPersons[1] + '</a></span> 等 ' + invitedPersonsLen + ' 人';
+                innerHtmlText += '您已邀请 <span><a href="">' + invitedPersons[0] + '</a>、<a href="">' + invitedPersons[1] + '</a></span> 等 ' + invitedPersonsLen + ' 人';
                 break;
         }
         inviteStatusSpanEl.innerHTML = innerHtmlText;
@@ -249,7 +249,7 @@ invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><i
         if (target.tagName === 'A') {
             var len,
                 // 这里的 reminderNum 取总数的余数，如果被 4 整除则取 4
-                reminderNum = count/4 === 0 ? 4 : count % 4;
+                reminderNum = count%4 === 0 ? 4 : count%4;
 
             if (target.textContent === '下一页' && currentGroupCount !== totalGroupCount) {
                 // 切换显示的 recommended persons 列表
