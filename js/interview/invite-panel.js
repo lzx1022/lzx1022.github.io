@@ -10,7 +10,7 @@
 
 // 2. 功能逻辑
 //     2.0. 初始化 invite-panel，并根据 json 生成邀请人列表
-//     2.1. 邀请按钮对应的一系列功能( click 邀请人列表 / hover 顶部邀请人提示文字 / click 悬浮框按钮)
+//     2.1. 邀请按钮对应的一系列功能( click 邀请人列表 / mouseover 顶部邀请人提示文字 / click 悬浮框按钮)
 //     2.2. 翻页功能
 
 
@@ -140,14 +140,10 @@ ajax('../../js/interview/invite_panel.json', {
             var changeAll = function(target) {
 
                 if (target.tagName === 'BUTTON') {
-                    var choice;
-
                     var nextAEl = target.nextElementSibling || nextElementSibling(target),
                         prevAEl = target.previousElementSibling || previousElementSibling(target),
-                        personName;
-
-                    choice = target.textContent === '邀请回答' ? 'invite' : 'uninvite';
-                    personName = nextAEl ? nextAEl.textContent : prevAEl.textContent;
+                        choice = target.textContent === '邀请回答' ? 'invite' : 'uninvite',
+                        personName = nextAEl ? nextAEl.textContent : prevAEl.textContent;
 
                     // change 1：根据 choice 更新 persons 对象
 
@@ -246,7 +242,7 @@ ajax('../../js/interview/invite_panel.json', {
                             coverCard = spanEl.querySelector('div');
 
                         // 悬浮框的 mouseover / mouseout
-                            // 因为需要让悬浮框保持状态，所以在 CSS 里增加了文字部分的上下 padding，扩大 hover 范围
+                            // 因为需要让悬浮框保持状态，所以在 CSS 里增加了文字部分的上下 padding，扩大 mouseover 范围
                         EventUtil.addHandler(spanEl, 'mouseover', function(e) {
                             coverCard.style.display = 'block';
                         });
