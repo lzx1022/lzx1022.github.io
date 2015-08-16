@@ -95,7 +95,7 @@ ajax('../../js/interview/invite_panel.json', {
     method: 'GET',
     success: function(response) {
 
-    // 2.0. 初始化
+        // 2.0. 初始化
         var jsonObj = JSON.parse(response),
             persons = {
                 invited: [],
@@ -131,7 +131,7 @@ ajax('../../js/interview/invite_panel.json', {
             inviteSuggest.innerHTML = innerHtmlText;
         })();
 
-    // 2.1. 邀请按钮对应的一系列功能  ---------------------------------------------------
+    // 2.1. 邀请按钮对应的一系列功能  ----------------------------------------------
 
         (function() {
             // 2.1.1. 定义变量和方法
@@ -284,75 +284,77 @@ ajax('../../js/interview/invite_panel.json', {
             // })();
         })();
 
-    // 2.2. 翻页功能  -----------------------------------------------------------
+        // 2.2. 翻页功能  --------------------------------------------------------
 
-        // 2.2.2. 完成翻页逻辑
-        // 定义变量
-        var liEls = inviteSuggest.getElementsByTagName('li'),
-            // 以下代码只考虑 count > 4 的情况
-            count = liEls.length,
-            totalGroupCount = Math.ceil(count/4),
-            currentGroupCount = 1,
-            inviteArrow = invitePanel.getElementsByClassName('invite-arrow')[0],
-            arrows = inviteArrow.getElementsByTagName('a');
-
-        // 初始化：显示的邀请人和上下页状态
         (function() {
-            for (var i = 0; i < 4; i++) {
-                liEls[i].style.display = 'list-item';
-            }
-        })();
-        arrows[0].className = 'arrow-disabled';
+            // 2.2.2. 完成翻页逻辑
+            // 定义变量
+            var liEls = inviteSuggest.getElementsByTagName('li'),
+                // 以下代码只考虑 count > 4 的情况
+                count = liEls.length,
+                totalGroupCount = Math.ceil(count/4),
+                currentGroupCount = 1,
+                inviteArrow = invitePanel.getElementsByClassName('invite-arrow')[0],
+                arrows = inviteArrow.getElementsByTagName('a');
 
-        // 绑定事件
-        EventUtil.addHandler(inviteArrow, 'click', function(e){
-            event = EventUtil.getEvent(e);
-            var target = EventUtil.getTarget(event);
-            EventUtil.preventDefault(event);
+            // 初始化：显示的邀请人和上下页状态
+            (function() {
+                for (var i = 0; i < 4; i++) {
+                    liEls[i].style.display = 'list-item';
+                }
+            })();
+            arrows[0].className = 'arrow-disabled';
 
-            if (target.tagName === 'A') {
-                var len,
-                    // 这里的 reminderNum 取总数的余数，如果被 4 整除则取 4
-                    reminderNum = count%4 === 0 ? 4 : count%4;
+            // 绑定事件
+            EventUtil.addHandler(inviteArrow, 'click', function(e){
+                event = EventUtil.getEvent(e);
+                var target = EventUtil.getTarget(event);
+                EventUtil.preventDefault(event);
 
-                if (target.textContent === '下一页' && currentGroupCount !== totalGroupCount) {
-                    // 切换显示的 recommended persons 列表
-                    (function() {
-                        len = reminderNum + 4*currentGroupCount;
-                        for (var i = 4*(currentGroupCount-1); i < 4*currentGroupCount; i++) {
-                            liEls[i].style.display = 'none';
+                if (target.tagName === 'A') {
+                    var len,
+                        // 这里的 reminderNum 取总数的余数，如果被 4 整除则取 4
+                        reminderNum = count%4 === 0 ? 4 : count%4;
+
+                    if (target.textContent === '下一页' && currentGroupCount !== totalGroupCount) {
+                        // 切换显示的 recommended persons 列表
+                        (function() {
+                            len = reminderNum + 4*currentGroupCount;
+                            for (var i = 4*(currentGroupCount-1); i < 4*currentGroupCount; i++) {
+                                liEls[i].style.display = 'none';
+                            }
+                            currentGroupCount++;
+                            len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
+                            for (var j = 4*(currentGroupCount-1); j < len; j++) {
+                                liEls[j].style.display = 'list-item';
+                            }
+                        })();
+                        // 设置 "上一页" "下一页" 状态
+                        arrows[0].className = '';
+                        if (currentGroupCount === totalGroupCount) {
+                            arrows[1].className = 'arrow-disabled';
                         }
-                        currentGroupCount++;
-                        len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
-                        for (var j = 4*(currentGroupCount-1); j < len; j++) {
-                            liEls[j].style.display = 'list-item';
+                    } else if (target.textContent === '上一页' && currentGroupCount !== 1) {
+                        // 切换显示的 recommended persons 列表
+                        (function() {
+                            len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
+                            for (var i = 4*(currentGroupCount-1); i < len; i++) {
+                                liEls[i].style.display = 'none';
+                            }
+                            currentGroupCount--;
+                            for (var j = 4*(currentGroupCount-1); j < 4*currentGroupCount; j++) {
+                                liEls[j].style.display = 'list-item';
+                            }
+                        })();
+                        // 设置 "上一页" "下一页" 状态
+                        arrows[1].className = '';
+                        if (currentGroupCount === 1) {
+                            arrows[0].className = 'arrow-disabled';
                         }
-                    })();
-                    // 设置 "上一页" "下一页" 状态
-                    arrows[0].className = '';
-                    if (currentGroupCount === totalGroupCount) {
-                        arrows[1].className = 'arrow-disabled';
-                    }
-                } else if (target.textContent === '上一页' && currentGroupCount !== 1) {
-                    // 切换显示的 recommended persons 列表
-                    (function() {
-                        len = currentGroupCount === totalGroupCount ? reminderNum+4*(currentGroupCount-1) : 4*currentGroupCount;
-                        for (var i = 4*(currentGroupCount-1); i < len; i++) {
-                            liEls[i].style.display = 'none';
-                        }
-                        currentGroupCount--;
-                        for (var j = 4*(currentGroupCount-1); j < 4*currentGroupCount; j++) {
-                            liEls[j].style.display = 'list-item';
-                        }
-                    })();
-                    // 设置 "上一页" "下一页" 状态
-                    arrows[1].className = '';
-                    if (currentGroupCount === 1) {
-                        arrows[0].className = 'arrow-disabled';
                     }
                 }
-            }
-        });
+            });
+        })();
     }
 });
 
