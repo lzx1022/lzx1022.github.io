@@ -108,24 +108,17 @@ ajax('../../js/interview/invite_panel.json', {
 
         // 初始化：生成邀请人列表
         (function() {
-            var invitedLen = persons.invited.length,
-                recommendedLen = persons.recommended.length,
+            var recommendedLen = persons.recommended.length,
                 avatarUrl,
                 personName,
                 bio,
                 innerHtmlText = '',
                 inviteSuggest = invitePanel.getElementsByClassName('invite-suggest')[0];
 
-            for (var i = 0; i < invitedLen; i++) {
-                avatarUrl = persons.invited[i].avatarUrl;
-                personName = persons.invited[i].name;
-                bio = persons.invited[i].bio;
-                innerHtmlText += '<li><div><a href=""><img src="../../img/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
-            }
-            for (var j = 0; j < recommendedLen; j++) {
-                avatarUrl = persons.recommended[j].avatarUrl;
-                personName = persons.recommended[j].name;
-                bio = persons.recommended[j].bio;
+            for (var i = 0; i < recommendedLen; i++) {
+                avatarUrl = persons.recommended[i].avatarUrl;
+                personName = persons.recommended[i].name;
+                bio = persons.recommended[i].bio;
                 innerHtmlText += '<li><div><a href=""><img src="../../img/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
             }
             inviteSuggest.innerHTML = innerHtmlText;
@@ -268,7 +261,7 @@ ajax('../../js/interview/invite_panel.json', {
                 }
             });
 
-            // 初始化：遍历 JSON 数据中已经受到邀请的人，模拟触发 click
+            // 触发已被邀请者：遍历 JSON 数据中已经受到邀请的人，模拟触发 click
             // (function() {
             //     var btns = invitePanel.getElementsByTagName('button'),
             //         invitedLen = persons.invited.length,
