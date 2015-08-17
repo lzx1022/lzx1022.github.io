@@ -129,7 +129,7 @@ ajax('../../js/interview/invite_panel.json', {
         (function() {
             // 2.1.1. 定义变量和方法
 
-            // 定义更新方法（首先更新 persons 对象，然后根据 persons 对象更新顶部提示部分以及邀请聊表里的状态），这是最核心的方法
+            // 定义更新方法（首先更新 persons 对象，然后根据 persons 对象更新顶部提示部分以及邀请列表里的状态），这是最核心的方法
             var changeAll = function(target) {
                 var nextAEl = target.nextElementSibling || nextElementSibling(target),
                     prevAEl = target.previousElementSibling || previousElementSibling(target),
@@ -220,13 +220,9 @@ ajax('../../js/interview/invite_panel.json', {
                 var target = EventUtil.getTarget(event);
 
                 if (target.tagName === 'BUTTON') {
+                    changeAll(target);
 
-                    // 如果点击的是邀请列表里的 button，则 changeAll
-                    if (target.nextElementSibling || nextElementSibling(target)) {
-                        changeAll(target);
-                    }
-
-                    // 如果此时顶部提示部分已经存在，则对其绑定相应的 mouseover 和 click 事件
+                    // 如果此时顶部提示部分已经存在，则对其绑定相应的 mouseover 和 click 事件，因为 inviteStatus 的内容是会完全更新的，所以这里需要每次发生 button click 之后重复绑定 mouseover/out 事件
                     if (persons.invited.length > 0) {
                         (function() {
                             var spanEl = inviteStatus.querySelector('span'),
@@ -245,16 +241,6 @@ ajax('../../js/interview/invite_panel.json', {
                             });
                             EventUtil.addHandler(coverCard, 'mouseout', function(e) {
                                 coverCard.style.display = 'none';
-                            });
-
-                            // 悬浮框里 button 的 click
-                            EventUtil.addHandler(coverCard, 'click', function(e) {
-                                event = EventUtil.getEvent(e);
-                                var target = EventUtil.getTarget(event);
-
-                                if (target.tagName === 'BUTTON') {
-                                    changeAll(target);
-                                }
                             });
                         })();
                     }
