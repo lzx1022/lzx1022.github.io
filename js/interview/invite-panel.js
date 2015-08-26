@@ -119,7 +119,7 @@ ajax('../../js/interview/invite_panel.json', {
                 avatarUrl = persons.recommended[i].avatarUrl;
                 personName = persons.recommended[i].name;
                 bio = persons.recommended[i].bio;
-                innerHtmlText += '<li><div><a href=""><img src="../../img/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
+                innerHtmlText += '<li><div><a href=""><img src="http://7xlcqv.com1.z0.glb.clouddn.com/interview/zhihu/invite-panel/' + avatarUrl.slice(avatarUrl.indexOf('/')) + '" alt=""></a><div><button class="btn-recommended">邀请回答</button><a href="">' + personName + '</a><div class="bio">' + bio + '</div></div></div></li>';
             }
             inviteSuggest.innerHTML = innerHtmlText;
         })();
@@ -168,7 +168,7 @@ ajax('../../js/interview/invite_panel.json', {
                 // 拼接 coverCard 字符串
                 (function() {
                     for (var i = 0; i < persons.invited.length; i++) {
-                        coverCardText += '<li><a><img src="../../img/interview/zhihu/invite-panel/' + (persons.invited[i].avatarUrl).slice((persons.invited[i].avatarUrl).indexOf('/')) + '" alt=""></a><a>' + persons.invited[i].name + '</a><button>收回邀请</button></li>';
+                        coverCardText += '<li><a><img src="http://7xlcqv.com1.z0.glb.clouddn.com/interview/zhihu/invite-panel/' + (persons.invited[i].avatarUrl).slice((persons.invited[i].avatarUrl).indexOf('/')) + '" alt=""></a><a>' + persons.invited[i].name + '</a><button>收回邀请</button></li>';
                     }
                 })();
                 coverCardText += '</ul></div>';
