@@ -33,9 +33,8 @@ var mySwiper = new Swiper ('.swiper-container', {
 });
 
 var swiperSlide4 = document.getElementsByClassName('swiper-slide-4')[0];
-var commentsBox = swiperSlide4.getElementsByClassName('comments-click-1')[0],
-    mask = swiperSlide4.getElementsByClassName('mask')[0],
-    commentsBoxs = swiperSlide4.getElementsByClassName('comments-click');
+var commentsBoxs = swiperSlide4.getElementsByClassName('comments-click'),
+    mask = swiperSlide4.getElementsByClassName('mask')[0];
 
 swiperSlide4.addEventListener('click', function(e) {
     var target = e.target;
@@ -43,13 +42,13 @@ swiperSlide4.addEventListener('click', function(e) {
     switch (target.className) {
         case 'btn btn-1':
             (function() {
-                commentsBox.style.left = '0px';
+                commentsBoxs[0].style.left = '0px';
                 mask.style.left = '0px';
             })();
             break;
         case 'btn btn-2':
             (function() {
-                commentsBox.style.left = '0px';
+                commentsBoxs[1].style.left = '0px';
                 mask.style.left = '0px';
             })();
             break;
