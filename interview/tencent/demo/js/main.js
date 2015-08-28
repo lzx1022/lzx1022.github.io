@@ -30,6 +30,9 @@ var mySwiper = new Swiper ('.swiper-container', {
 });
 
 var swiperSlide4 = document.getElementsByClassName('swiper-slide-4')[0];
+var commentsBox = swiperSlide4.getElementsByClassName('comments-click-1')[0],
+    mask = swiperSlide4.getElementsByClassName('mask')[0],
+    commentsBoxs = swiperSlide4.getElementsByClassName('comments-click');
 
 swiperSlide4.addEventListener('click', function(e) {
     var target = e.target;
@@ -37,24 +40,18 @@ swiperSlide4.addEventListener('click', function(e) {
     switch (target.className) {
         case 'btn btn-1':
             (function() {
-                var commentsBox = swiperSlide4.getElementsByClassName('comments-click-1')[0],
-                    mask = swiperSlide4.getElementsByClassName('mask')[0];
                 commentsBox.style.left = '0px';
                 mask.style.left = '0px';
             })();
             break;
         case 'btn btn-2':
             (function() {
-                var commentsBox = swiperSlide4.getElementsByClassName('comments-click-2')[0],
-                    mask = swiperSlide4.getElementsByClassName('mask')[0];
                 commentsBox.style.left = '0px';
                 mask.style.left = '0px';
             })();
             break;
         case 'btn-close':
             (function() {
-                var commentsBoxs = swiperSlide4.getElementsByClassName('comments-click'),
-                    mask = swiperSlide4.getElementsByClassName('mask')[0];
                 mask.style.left = '-320px';
                 for (var i = 0; i < commentsBoxs.length; i++) {
                     commentsBoxs[i].style.left = '-600px';
