@@ -1,3 +1,5 @@
+;(function() {
+
 var scaleW = window.innerWidth/320,
     scaleH = window.innerHeight/480,
     resizes = document.querySelectorAll('.resize');
@@ -24,32 +26,45 @@ var mySwiper = new Swiper ('.swiper-container', {
     },
     onSlideChangeEnd: function(swiper) {
         swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
-    },
-    // onTransitionEnd: function(swiper) {
-    //     swiperAnimate(swiper);
-    // },
-
-    // watchSlidesProgress: true,
-
-    // onProgress: function(swiper) {
-    //     for (var i = 0; i < swiper.slides.length; i++) {
-    //         var slide = swiper.slides[i];
-    //         var progress = slide.progress;
-    //         var translate = progress * swiper.height / 4;
-    //         var scale = 1 - Math.min(Math.abs(progress * 0.5), 1);
-    //         var opacity = 1 - Math.min(Math.abs(progress / 2), 0.5);
-    //         slide.style.opacity = opacity;
-    //         var es = slide.style;
-    //         es.webkitTransform = es.MsTransform = es.msTransform = es.MozTransform = es.OTransform = es.transform = 'translate3d(0,' + translate + 'px,-' + translate + 'px) scaleY(' + scale + ')';
-
-    //     }
-    // },
-
-    // onSetTransition: function(swiper, speed) {
-    //     for (var i = 0; i < swiper.slides.length; i++) {
-    //         var es = swiper.slides[i].style;
-    //         es.webkitTransitionDuration = es.MsTransitionDuration = es.msTransitionDuration = es.MozTransitionDuration = es.OTransitionDuration = es.transitionDuration = speed + 'ms';
-
-    //     }
-    // }
+    }
 });
+
+var swiperSlide4 = document.getElementsByClassName('swiper-slide-4')[0];
+
+swiperSlide4.addEventListener('click', function(e) {
+    var target = e.target;
+
+    switch (target.className) {
+        case 'btn btn-1':
+            (function() {
+                var commentsBox = swiperSlide4.getElementsByClassName('comments-click-1')[0],
+                    mask = swiperSlide4.getElementsByClassName('mask')[0];
+                commentsBox.style.left = '0px';
+                mask.style.left = '0px';
+            })();
+            break;
+        case 'btn btn-2':
+            (function() {
+                var commentsBox = swiperSlide4.getElementsByClassName('comments-click-2')[0],
+                    mask = swiperSlide4.getElementsByClassName('mask')[0];
+                commentsBox.style.left = '0px';
+                mask.style.left = '0px';
+            })();
+            break;
+        case 'btn-close':
+            (function() {
+                var commentsBoxs = swiperSlide4.getElementsByClassName('comments-click'),
+                    mask = swiperSlide4.getElementsByClassName('mask')[0];
+                mask.style.left = '-320px';
+                for (var i = 0; i < commentsBoxs.length; i++) {
+                    commentsBoxs[i].style.left = '-600px';
+                }
+            })();
+            break;
+        default:
+            break;
+    }
+});
+
+
+})();
