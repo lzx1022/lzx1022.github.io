@@ -54,9 +54,9 @@ swiperSlide4.addEventListener('click', function(e) {
             break;
         case 'btn-close':
             (function() {
-                mask.style.left = '-320px';
+                mask.style.left = '-500px';
                 for (var i = 0; i < commentsBoxs.length; i++) {
-                    commentsBoxs[i].style.left = '-600px';
+                    commentsBoxs[i].style.left = '-750px';
                 }
             })();
             break;
