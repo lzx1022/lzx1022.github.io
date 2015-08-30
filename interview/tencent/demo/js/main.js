@@ -5,8 +5,6 @@ function clearSwiperAnimate(swiper) {
     // 因为 swiper.js 会在前面生成一个最后的 slide，在最后生成一个第1的 slide，所以 swiper.slides.length === 9，所以这里要使用 0 和 8 来判断
     var prevIndex = swiper.activeIndex === 0 ? 8 : swiper.activeIndex - 1,
         nextIndex = swiper.activeIndex === 8 ? 0 : swiper.activeIndex + 1;
-    console.log(prevIndex);
-    console.log(nextIndex);
     var prevBoxes = Array.prototype.slice.call(swiper.slides[prevIndex].querySelectorAll('.ani')),
         nextBoxes = Array.prototype.slice.call(swiper.slides[nextIndex].querySelectorAll('.ani')),
         boxes = prevBoxes.concat(nextBoxes);
