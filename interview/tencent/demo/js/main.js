@@ -28,11 +28,11 @@ function swiperAnimate(swiper) {
     for (var i = 0; i < b.length; i++) {
         b[i].style.visibility = 'visible';
         effect = b[i].attributes['swiper-animate-effect'] ? b[i].attributes['swiper-animate-effect'].value : '';
-        b[i].className = b[i].className + ' animated '+ effect;
+        b[i].className += ' animated '+ effect;
         style = b[i].attributes['style'].value;
         duration = b[i].attributes['swiper-animate-duration'] ? b[i].attributes['swiper-animate-duration'].value : '';
         delay = b[i].attributes['swiper-animate-delay'] ? b[i].attributes['swiper-animate-delay'].value : '';
-        style = style + 'animation-duration:' + duration + ';-webkit-animation-duration:' + duration + ';' + 'animation-delay:' + delay + ';-webkit-animation-delay:' + delay + ';';
+        style += 'animation-duration:' + duration + ';-webkit-animation-duration:' + duration + ';' + 'animation-delay:' + delay + ';-webkit-animation-delay:' + delay + ';';
         b[i].setAttribute('style', style);
     }
 }
