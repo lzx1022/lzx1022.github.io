@@ -1,7 +1,38 @@
-//本插件由www.swiper.com.cn提供
-function swiperAnimateCache(){for(allBoxes=window.document.documentElement.querySelectorAll(".ani"),i=0;i<allBoxes.length;i++)allBoxes[i].attributes["style"]?allBoxes[i].setAttribute("swiper-animate-style-cache",allBoxes[i].attributes["style"].value):allBoxes[i].setAttribute("swiper-animate-style-cache"," "),allBoxes[i].style.visibility="hidden"}function swiperAnimate(a){clearSwiperAnimate();var b=a.slides[a.activeIndex].querySelectorAll(".ani");for(i=0;i<b.length;i++)b[i].style.visibility="visible",effect=b[i].attributes["swiper-animate-effect"]?b[i].attributes["swiper-animate-effect"].value:"",b[i].className=b[i].className+"  "+effect+" "+"animated",style=b[i].attributes["style"].value,duration=b[i].attributes["swiper-animate-duration"]?b[i].attributes["swiper-animate-duration"].value:"",duration&&(style=style+"animation-duration:"+duration+";-webkit-animation-duration:"+duration+";"),delay=b[i].attributes["swiper-animate-delay"]?b[i].attributes["swiper-animate-delay"].value:"",delay&&(style=style+"animation-delay:"+delay+";-webkit-animation-delay:"+delay+";"),b[i].setAttribute("style",style)}function clearSwiperAnimate(){for(allBoxes=window.document.documentElement.querySelectorAll(".ani"),i=0;i<allBoxes.length;i++)allBoxes[i].attributes["swiper-animate-style-cache"]&&allBoxes[i].setAttribute("style",allBoxes[i].attributes["swiper-animate-style-cache"].value),allBoxes[i].style.visibility="hidden",allBoxes[i].className=allBoxes[i].className.replace("animated"," "),allBoxes[i].attributes["swiper-animate-effect"]&&(effect=allBoxes[i].attributes["swiper-animate-effect"].value,allBoxes[i].className=allBoxes[i].className.replace(effect," "))}
+(function() {
 
-;(function() {
+// 清除前后 slide 的动画状态
+function clearSwiperAnimate(swiper) {
+    var prevBoxes = Array.prototype.slice.call(swiper.slides[swiper.activeIndex - 1].querySelectorAll('.ani')),
+        nextBoxes = Array.prototype.slice.call(swiper.slides[swiper.activeIndex + 1].querySelectorAll('.ani')),
+        boxes = prevBoxes.concat(nextBoxes);
+    for (var i = 0; i < boxes.length; i++) {
+        if (boxes[i].attributes['style']) {
+            boxes[i].attributes['style'].value = 'hidden';
+        }
+        boxes[i].className = 'ani resize';
+    }
+}
+
+function swiperAnimate(swiper) {
+    // 清除前后 slide 的动画状态
+    clearSwiperAnimate(swiper);
+
+    var b = swiper.slides[swiper.activeIndex].querySelectorAll('.ani'),
+        style,
+        effect,
+        duration,
+        delay;
+    for (var i = 0; i < b.length; i++) {
+        b[i].style.visibility = 'visible';
+        effect = b[i].attributes['swiper-animate-effect'] ? b[i].attributes['swiper-animate-effect'].value : '';
+        b[i].className = b[i].className + ' animated '+ effect;
+        style = b[i].attributes['style'].value;
+        duration = b[i].attributes['swiper-animate-duration'] ? b[i].attributes['swiper-animate-duration'].value : '';
+        delay = b[i].attributes['swiper-animate-delay'] ? b[i].attributes['swiper-animate-delay'].value : '';
+        style = style + 'animation-duration:' + duration + ';-webkit-animation-duration:' + duration + ';' + 'animation-delay:' + delay + ';-webkit-animation-delay:' + delay + ';';
+        b[i].setAttribute('style', style);
+    }
+}
 
 var scaleW = window.innerWidth/320,
     scaleH = window.innerHeight/480,
@@ -23,10 +54,6 @@ var mySwiper = new Swiper ('.swiper-container', {
     // 如果需要前进后退按钮
     nextButton: '.swiper-button-next',
     prevButton: '.swiper-button-prev',
-    onInit: function(swiper) {
-        swiperAnimateCache(swiper); //隐藏动画元素
-        swiperAnimate(swiper); //初始化完成开始动画
-    },
     onSlideChangeEnd: function(swiper) {
         swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
     }
@@ -64,6 +91,5 @@ swiperSlide4.addEventListener('click', function(e) {
             break;
     }
 });
-
 
 })();
