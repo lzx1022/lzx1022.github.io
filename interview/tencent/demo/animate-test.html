@@ -152,6 +152,7 @@
         }</style></head><body><div></div><button>click</button><script>var aEle = document.getElementsByClassName('a')[0],
             btn = document.getElementsByTagName('button')[0];
         btn.addEventListener('click', function() {
+            console.log(aEle)
             aEle.className = 'bounceInDown animated';
             setTimeout(function() {
                 aEle.className = '';

@@ -8,7 +8,7 @@ function clearSwiperAnimate(swiper) {
     var prevBoxes = Array.prototype.slice.call(swiper.slides[prevIndex].querySelectorAll('.ani')),
         nextBoxes = Array.prototype.slice.call(swiper.slides[nextIndex].querySelectorAll('.ani')),
         boxes = prevBoxes.concat(nextBoxes);
-    for (var i = 0; i < boxes.length; i++) {
+    for (var i = 0, boxesLen = boxes.length; i < boxesLen; i++) {
         if (boxes[i].attributes['style']) {
             boxes[i].attributes['style'].value = 'hidden';
         }
@@ -25,7 +25,7 @@ function swiperAnimate(swiper) {
         effect,
         duration,
         delay;
-    for (var i = 0; i < b.length; i++) {
+    for (var i = 0, bLen = b.length; i < bLen; i++) {
         b[i].style.visibility = 'visible';
         effect = b[i].attributes['swiper-animate-effect'] ? b[i].attributes['swiper-animate-effect'].value : '';
         b[i].className += ' animated '+ effect;
@@ -42,7 +42,7 @@ var scaleW = window.innerWidth/320,
     resizes = document.querySelectorAll('.resize');
 
 (function() {
-    for (var j=0; j<resizes.length; j++) {
+    for (var j=0, resizesLen = resizes.length; j<resizesLen; j++) {
         resizes[j].style.width = parseInt(resizes[j].style.width)*scaleW+'px';
         resizes[j].style.height = parseInt(resizes[j].style.height)*scaleH+'px';
         resizes[j].style.top = parseInt(resizes[j].style.top)*scaleH+'px';
@@ -63,7 +63,7 @@ var mySwiper = new Swiper ('.swiper-container', {
 });
 
 var swiperSlide4 = document.getElementsByClassName('swiper-slide-4')[0];
-var commentsBoxs = swiperSlide4.getElementsByClassName('comments-click'),
+var commentsBoxes = swiperSlide4.getElementsByClassName('comments-click'),
     mask = swiperSlide4.getElementsByClassName('mask')[0];
 
 swiperSlide4.addEventListener('click', function(e) {
@@ -72,21 +72,24 @@ swiperSlide4.addEventListener('click', function(e) {
     switch (target.className) {
         case 'btn btn-1':
             (function() {
-                commentsBoxs[0].style.left = '0px';
-                mask.style.left = '0px';
+                commentsBoxes[0].style.left = '0px';
+                mask.style.left = '50%';
+                mask.style.marginLeft = '-225px';
             })();
             break;
         case 'btn btn-2':
             (function() {
-                commentsBoxs[1].style.left = '0px';
-                mask.style.left = '0px';
+                commentsBoxes[1].style.left = '0px';
+                mask.style.left = '50%';
+                mask.style.marginLeft = '-225px';
             })();
             break;
         case 'btn-close':
             (function() {
                 mask.style.left = '-500px';
-                for (var i = 0; i < commentsBoxs.length; i++) {
-                    commentsBoxs[i].style.left = '-750px';
+                mask.style.marginLeft = '0';
+                for (var i = 0, commentsBoxesLen = commentsBoxes.length; i < commentsBoxesLen; i++) {
+                    commentsBoxes[i].style.left = '-750px';
                 }
             })();
             break;
