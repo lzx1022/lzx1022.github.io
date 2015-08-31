@@ -1,5 +1,61 @@
 (function() {
 
+var animateParas = [
+    [
+        ['flash', '0.7s', '1.7s'],
+        ['zoomIn', '1.2s', 0],
+        ['rotateInDownLeft', '0.7s', '1s'],
+        ['rotateInDownLeft', '0.7s', '1s'],
+        ['rotateInDownRight', '0.7s', '1s']
+    ],
+    [
+        ['bounceInDown', '0.7s', 0],
+        ['bounceInDown', '0.7s', '0.7s'],
+        ['bounceInDown', '0.7s', '0.9s'],
+        ['bounceInDown', '0.7s', '1.1s']
+    ],
+    [
+        ['bounceInDown', '0.7s', 0],
+        ['bounceInDown', '0.7s', '0.2s'],
+        ['bounceInDown', '0.7s', '0.4s'],
+        ['bounceInDown', '0.7s', '1.1s'],
+        ['lightSpeedIn', '0.7s', '1.8s'],
+        ['slideInDown', '1s', '2.5s']
+    ],
+    [
+        ['bounceInDown', '0.5s', 0],
+        ['bounceInDown', '0.5s', '0.2s'],
+        ['bounceInDown', '0.5s', '0.4s'],
+        ['bounceInDown', '0.5s', '0.6s'],
+        ['bounceInDown', '0.5s', '0.8s'],
+        ['bounceInDown', '0.7s', '1.3s'],
+        ['bounceInDown', '0.7s', '1.3s']
+    ],
+    [
+        ['zoomIn', '0.5s', 0],
+        ['bounceIn', '0.7s', '0.5s'],
+        ['bounceInDown', '0.5s', '1.2s'],
+        ['bounceInDown', '0.5s', '1.4s'],
+        ['bounceInDown', '0.5s', '1.6s'],
+        ['bounceInDown', '0.5s', '1.9s']
+    ],
+    [
+        ['flash', '0.5s', '2.6s'],
+        ['bounceInDown', '0.7s', 0],
+        ['bounceInDown', '0.7s', '0.2s'],
+        ['bounceIn', '0.7s', '0.9s'],
+        ['bounceIn', '1s', '1.7s'],
+        ['lightSpeedIn', '0.7s', '1.9s']
+    ],
+    [
+        ['bounceInDown', '0.5s', 0],
+        ['bounceInDown', '0.5s', '0.2s'],
+        ['bounceIn', '0.7s', '0.7s'],
+        ['flash', '0.7s', '2.1s'],
+        ['lightSpeedIn', '0.7s', '1.4s']
+    ]
+];
+
 // 清除前后 slide 的动画状态
 function clearSwiperAnimate(swiper) {
     // 因为 swiper.js 会在前面生成一个最后的 slide，在最后生成一个第1的 slide，所以 swiper.slides.length === 9，所以这里要使用 0 和 8 来判断
@@ -20,18 +76,27 @@ function swiperAnimate(swiper) {
     // 清除前后 slide 的动画状态
     clearSwiperAnimate(swiper);
 
-    var b = swiper.slides[swiper.activeIndex].querySelectorAll('.ani'),
+    var activeIndex = swiper.activeIndex,
+        trueIndex,
+        b = swiper.slides[activeIndex].querySelectorAll('.ani'),
         style,
         effect,
         duration,
         delay;
+    if (activeIndex === 8) {
+        trueIndex = 1;
+    } else if (activeIndex === 0) {
+        trueIndex = 7;
+    } else {
+        trueIndex = activeIndex;
+    };
     for (var i = 0, bLen = b.length; i < bLen; i++) {
         b[i].style.visibility = 'visible';
-        effect = b[i].attributes['swiper-animate-effect'] ? b[i].attributes['swiper-animate-effect'].value : '';
+        effect = animateParas[trueIndex-1][i][0];
         b[i].className += ' animated '+ effect;
         style = b[i].attributes['style'].value;
-        duration = b[i].attributes['swiper-animate-duration'] ? b[i].attributes['swiper-animate-duration'].value : '';
-        delay = b[i].attributes['swiper-animate-delay'] ? b[i].attributes['swiper-animate-delay'].value : '';
+        duration = animateParas[trueIndex-1][i][1];
+        delay = animateParas[trueIndex-1][i][2];
         style += 'animation-duration:' + duration + ';-webkit-animation-duration:' + duration + ';' + 'animation-delay:' + delay + ';-webkit-animation-delay:' + delay + ';';
         b[i].setAttribute('style', style);
     }
