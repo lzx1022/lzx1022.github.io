@@ -73,21 +73,21 @@ swiperSlide4.addEventListener('click', function(e) {
         case 'btn btn-1':
             (function() {
                 commentsBoxes[0].style.left = '0px';
-                mask.style.left = '50%';
-                mask.style.marginLeft = '-225px';
+                mask.classList.remove('maskmoveout');
+                mask.classList.add('maskmovein');
             })();
             break;
         case 'btn btn-2':
             (function() {
                 commentsBoxes[1].style.left = '0px';
-                mask.style.left = '50%';
-                mask.style.marginLeft = '-225px';
+                mask.classList.remove('maskmoveout');
+                mask.classList.add('maskmovein');
             })();
             break;
         case 'btn-close':
             (function() {
-                mask.style.left = '-500px';
-                mask.style.marginLeft = '0';
+                mask.classList.remove('maskmovein');
+                mask.classList.add('maskmoveout');
                 for (var i = 0, commentsBoxesLen = commentsBoxes.length; i < commentsBoxesLen; i++) {
                     commentsBoxes[i].style.left = '-750px';
                 }
