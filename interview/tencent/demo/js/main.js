@@ -22,8 +22,8 @@ window.onload = function() {
                 ['flash', '3s', '1.4s', 'infinite'],
                 ['flash', '3s', '1.6s', 'infinite'],
                 // cloud
-                ['cloud', '6s', '0s', 'infinite'],
-                ['cloud', '10s', '1s', 'infinite'],
+                ['cloudMove', '6s', '0s', 'infinite'],
+                ['cloudMoveSmall', '10s', '1s', 'infinite'],
                 // words
                 ['fadeInDownSmall', '0.3s', '1.5s', 1],
                 ['zoomInFromBig', '0.5s', '1s', 1],
@@ -167,8 +167,8 @@ window.onload = function() {
                 ['flash', '3s', '1.4s', 'infinite'],
                 ['flash', '3s', '1.6s', 'infinite'],
                 // cloud
-                ['cloud', '6s', '0s', 'infinite'],
-                ['cloud', '10s', '1s', 'infinite'],
+                ['cloudMove', '6s', '0s', 'infinite'],
+                ['cloudMoveSmall', '10s', '1s', 'infinite'],
                 // thanks
                 ['zoomInDisappear', '2s', '0.2s', 1],
                 // words-fighting
