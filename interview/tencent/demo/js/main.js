@@ -136,11 +136,11 @@ window.onload = function() {
                 // penguin-words
                 ['bounceInDown', '0.5s', 0, 1],
                 // gems
-                ['fadeIn', '0.1s', '1s', 1],
-                ['fadeIn', '0.1s', '1.1s', 1],
-                ['fadeIn', '0.1s', '1.2s', 1],
-                ['fadeIn', '0.1s', '1.3s', 1],
-                ['fadeIn', '0.1s', '1.4s', 1],
+                ['fadeIn', '0.2s', '1s', 1],
+                ['fadeIn', '0.2s', '1.2s', 1],
+                ['fadeIn', '0.2s', '1.4s', 1],
+                ['fadeIn', '0.2s', '1.6s', 1],
+                ['fadeIn', '0.2s', '1.8s', 1],
                 // blocks-1
                 ['fadeInLeft', '0.3s', '2.3s', 1],
                 ['fadeInRightSmall', '0.3s', '2.6s', 1],
