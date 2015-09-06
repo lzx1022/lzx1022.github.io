@@ -9,6 +9,23 @@ window.onload = function() {
         loadingPage.setAttribute('style', style);
     })();
 
+    var scaleW = window.innerWidth/320,
+        scaleH = window.innerHeight/568,
+        widthProp,
+        heightProp,
+        topProp,
+        leftProp,
+        arrowEle = document.getElementById('arrow');
+
+        widthProp = window.getComputedStyle(arrowEle).getPropertyValue('width');
+        arrowEle.style.width = parseInt(widthProp)*scaleW+'px';
+        heightProp = window.getComputedStyle(arrowEle).getPropertyValue('height');
+        arrowEle.style.height = parseInt(heightProp)*scaleH+'px';
+        topProp = window.getComputedStyle(arrowEle).getPropertyValue('top');
+        arrowEle.style.top = parseInt(topProp)*scaleH+'px';
+        leftProp = window.getComputedStyle(arrowEle).getPropertyValue('left');
+        arrowEle.style.left = parseInt(leftProp)*scaleH+'px';
+
     var timeoutId = window.setTimeout(function() {
 
         loadingPage.style.display = 'none';
@@ -207,6 +224,7 @@ window.onload = function() {
             var activeIndex = swiper.activeIndex,
                 trueIndex,
                 b = swiper.slides[activeIndex].querySelectorAll('.ani'),
+                resizeBoxes = swiper.slides[activeIndex].querySelectorAll('.resize'),
                 style,
                 effect,
                 duration,
@@ -220,6 +238,18 @@ window.onload = function() {
             } else {
                 trueIndex = activeIndex;
             }
+
+            for (var j = 0, resizeBoxesLen = resizeBoxes.length; j < resizeBoxesLen; j++) {
+                widthProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('width');
+                resizeBoxes[j].style.width = parseInt(widthProp)*scaleW+'px';
+                heightProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('height');
+                resizeBoxes[j].style.height = parseInt(heightProp)*scaleH+'px';
+                topProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('top');
+                resizeBoxes[j].style.top = parseInt(topProp)*scaleH+'px';
+                leftProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('left');
+                resizeBoxes[j].style.left = parseInt(leftProp)*scaleH+'px';
+            }
+
             for (var i = 0, bLen = b.length; i < bLen; i++) {
                 b[i].style.visibility = 'visible';
                 effect = animateParas[trueIndex-1][i][0];
@@ -236,19 +266,6 @@ window.onload = function() {
                 b[i].setAttribute('style', style);
             }
         }
-
-        var scaleW = window.innerWidth/320,
-            scaleH = window.innerHeight/480,
-            resizes = document.querySelectorAll('.resize');
-
-        (function() {
-            for (var j=0, resizesLen = resizes.length; j<resizesLen; j++) {
-                resizes[j].style.width = parseInt(resizes[j].style.width)*scaleW+'px';
-                resizes[j].style.height = parseInt(resizes[j].style.height)*scaleH+'px';
-                resizes[j].style.top = parseInt(resizes[j].style.top)*scaleH+'px';
-                resizes[j].style.left = parseInt(resizes[j].style.left)*scaleW+'px';
-            }
-        })();
 
         var mySwiper = new Swiper ('.swiper-container', {
             direction: 'vertical',
