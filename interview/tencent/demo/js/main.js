@@ -215,6 +215,13 @@ window.onload = function() {
                     boxes[i].className = 'ani resize';
                 }
             }
+            var resizeBoxes = document.getElementsByClassName('resize');
+            for (var j = 0; j < resizeBoxes.length; j++) {
+                // svg 和 path 的 className 都不太一样，另外这里要把箭头也去掉
+                if ((resizeBoxes[j].className === 'resize' || resizeBoxes[j].className.baseVal === 'resize') && resizeBoxes[j].id ==! 'arrow') {
+                    resizeBoxes[j].style.cssText = 'hidden';
+                }
+            };
         }
 
         function swiperAnimate(swiper) {
@@ -239,16 +246,6 @@ window.onload = function() {
                 trueIndex = activeIndex;
             }
 
-            for (var j = 0, resizeBoxesLen = resizeBoxes.length; j < resizeBoxesLen; j++) {
-                widthProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('width');
-                resizeBoxes[j].style.width = parseInt(widthProp)*scaleW+'px';
-                heightProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('height');
-                resizeBoxes[j].style.height = parseInt(heightProp)*scaleH+'px';
-                topProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('top');
-                resizeBoxes[j].style.top = parseInt(topProp)*scaleH+'px';
-                leftProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('left');
-                resizeBoxes[j].style.left = parseInt(leftProp)*scaleH+'px';
-            }
 
             for (var i = 0, bLen = b.length; i < bLen; i++) {
                 b[i].style.visibility = 'visible';
@@ -265,6 +262,20 @@ window.onload = function() {
                 style += 'animation-duration:' + duration + ';-webkit-animation-duration:' + duration + ';' + 'animation-delay:' + delay + ';-webkit-animation-delay:' + delay + ';' + 'animation-iteration-count:' + iteration + ';-webkit-animation-iteration-count:' + iteration;
                 b[i].setAttribute('style', style);
             }
+
+
+            // 因为标有 .ani 和 .resize 的元素不是完全匹配的，所以这里要分两步处理
+            for (var j = 0, resizeBoxesLen = resizeBoxes.length; j < resizeBoxesLen; j++) {
+                widthProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('width');
+                resizeBoxes[j].style.width = parseInt(widthProp)*scaleW+'px';
+                heightProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('height');
+                resizeBoxes[j].style.height = parseInt(heightProp)*scaleH+'px';
+                topProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('top');
+                resizeBoxes[j].style.top = parseInt(topProp)*scaleH+'px';
+                leftProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('left');
+                resizeBoxes[j].style.left = parseInt(leftProp)*scaleH+'px';
+            }
+
         }
 
         var mySwiper = new Swiper ('.swiper-container', {
