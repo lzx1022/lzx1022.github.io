@@ -6,14 +6,24 @@ window.onload = function() {
         loadingPage.style.cssText += 'animation-name: fadeOutDisappear; -webkit-animation-name: fadeOutDisappear; animation-duration: 1s;-webkit-animation-duration: 1s;animation-iteration-count: 1; -webkit-animation-iteration-count: 1';
     })();
 
-    var scaleW = window.innerWidth/320,
-        scaleH = window.innerHeight/568,
+    var scaleW = screen.width/320,
+        scaleH = (screen.height/568),
         widthProp,
         heightProp,
         topProp,
         marginleftProp,
-        leftProp,
         arrowEle = document.getElementById('arrow');
+
+        // console.log(window.innerWidth);
+        // console.log(window.innerHeight);
+        // console.log(window.outerWidth);
+        // console.log(window.outerHeight);
+        // console.log(document.width);
+        // console.log(document.height);
+        // console.log(screen.width);
+        // console.log(screen.height);
+        console.log(scaleW);
+        console.log(scaleH);
 
 
         widthProp = 'width:' + parseInt(window.getComputedStyle(arrowEle).getPropertyValue('width'))*scaleH + 'px;';
@@ -240,6 +250,15 @@ window.onload = function() {
                 trueIndex = activeIndex;
             }
 
+            // 因为标有 .ani 和 .resize 的元素不是完全匹配的，所以这里要分两步处理
+            for (var j = 0, resizeBoxesLen = resizeBoxes.length; j < resizeBoxesLen; j++) {
+                widthProp = 'width:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('width'))*scaleH + 'px;';
+                heightProp = 'height:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('height'))*scaleH + 'px;';
+                topProp = 'top:' + (parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('top'))*scaleH) + 'px;';
+                marginleftProp = 'margin-left:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('margin-left'))*scaleH + 'px;';
+                resizeBoxes[j].style.cssText += widthProp + heightProp + topProp + marginleftProp;
+            }
+
             for (var i = 0, bLen = b.length; i < bLen; i++) {
                 b[i].style.visibility = 'visible';
                 effect = animateParas[trueIndex-1][i][0];
@@ -255,14 +274,7 @@ window.onload = function() {
             }
 
 
-            // 因为标有 .ani 和 .resize 的元素不是完全匹配的，所以这里要分两步处理
-            for (var j = 0, resizeBoxesLen = resizeBoxes.length; j < resizeBoxesLen; j++) {
-                widthProp = 'width:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('width'))*scaleH + 'px;';
-                heightProp = 'height:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('height'))*scaleH + 'px;';
-                topProp = 'top:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('top'))*scaleH + 'px;';
-                marginleftProp = 'margin-left:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('margin-left'))*scaleH + 'px;';
-                resizeBoxes[j].style.cssText += widthProp + heightProp + topProp + marginleftProp;
-            }
+
 
         }
 
