@@ -218,7 +218,7 @@ window.onload = function() {
             var resizeBoxes = document.getElementsByClassName('resize');
             for (var j = 0; j < resizeBoxes.length; j++) {
                 // svg 和 path 的 className 都不太一样，另外这里要把箭头也去掉
-                if ((resizeBoxes[j].className === 'resize' || resizeBoxes[j].className.baseVal === 'resize') && resizeBoxes[j].id ==! 'arrow') {
+                if ((resizeBoxes[j].className === 'resize' || resizeBoxes[j].className.baseVal === 'resize') && resizeBoxes[j].id !== 'arrow') {
                     resizeBoxes[j].style.cssText = 'hidden';
                 }
             };
