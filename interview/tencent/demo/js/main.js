@@ -3,10 +3,7 @@
 window.onload = function() {
     var loadingPage = document.getElementsByClassName('loading')[0];
     (function() {
-        var style;
-
-        style += 'animation-name: fadeOutDisappear; -webkit-animation-name: fadeOutDisappear; animation-duration: 1s;-webkit-animation-duration: 1s;animation-iteration-count: 1; -webkit-animation-iteration-count: 1';
-        loadingPage.setAttribute('style', style);
+        loadingPage.style.cssText += 'animation-name: fadeOutDisappear; -webkit-animation-name: fadeOutDisappear; animation-duration: 1s;-webkit-animation-duration: 1s;animation-iteration-count: 1; -webkit-animation-iteration-count: 1';
     })();
 
     var scaleW = window.innerWidth/320,
@@ -14,17 +11,16 @@ window.onload = function() {
         widthProp,
         heightProp,
         topProp,
+        marginleftProp,
         leftProp,
         arrowEle = document.getElementById('arrow');
 
-        widthProp = window.getComputedStyle(arrowEle).getPropertyValue('width');
-        arrowEle.style.width = parseInt(widthProp)*scaleW+'px';
-        heightProp = window.getComputedStyle(arrowEle).getPropertyValue('height');
-        arrowEle.style.height = parseInt(heightProp)*scaleH+'px';
-        topProp = window.getComputedStyle(arrowEle).getPropertyValue('top');
-        arrowEle.style.top = parseInt(topProp)*scaleH+'px';
-        leftProp = window.getComputedStyle(arrowEle).getPropertyValue('left');
-        arrowEle.style.left = parseInt(leftProp)*scaleH+'px';
+
+        widthProp = 'width:' + parseInt(window.getComputedStyle(arrowEle).getPropertyValue('width'))*scaleH + 'px;';
+        heightProp = 'height:' + parseInt(window.getComputedStyle(arrowEle).getPropertyValue('height'))*scaleH + 'px;';
+        topProp = 'top:' + parseInt(window.getComputedStyle(arrowEle).getPropertyValue('top'))*scaleH + 'px;';
+        marginleftProp = 'margin-left:' + parseInt(window.getComputedStyle(arrowEle).getPropertyValue('margin-left'))*scaleH + 'px;';
+        arrowEle.style.cssText += widthProp + heightProp + topProp + marginleftProp;
 
     var timeoutId = window.setTimeout(function() {
 
@@ -115,7 +111,7 @@ window.onload = function() {
                 // rocket
                 ['fadeInUpSmall', '0.4s', '3.9s', 1],
                 // words-3
-                ['fadeIn', '0.4s', '4.9s', 1],
+                ['fadeIn', '0.4s', '5s', 1],
                 // circle-4
                 ['fadeIn', '0.1s', '5s', 1],
                 // svg
@@ -149,32 +145,32 @@ window.onload = function() {
                 // penguin-bg
                 ['fadeInAndOutInfinite', '1.4s', '1.5s', 'infinite'],
                 // penguin-reuse
-                ['zoomIn', '0.5s', '0.5s', 1],
+                ['zoomIn', '0.8s', '0.5s', 1],
                 // penguin-words
                 ['bounceInDown', '0.5s', 0, 1],
                 // gems
-                ['fadeIn', '0.4s', '1s', 1],
-                ['fadeIn', '0.4s', '1.2s', 1],
-                ['fadeIn', '0.4s', '1.4s', 1],
-                ['fadeIn', '0.4s', '1.6s', 1],
-                ['fadeIn', '0.4s', '1.8s', 1],
+                ['fadeIn', '0.4s', '1.3s', 1],
+                ['fadeIn', '0.4s', '1.5s', 1],
+                ['fadeIn', '0.4s', '1.7s', 1],
+                ['fadeIn', '0.4s', '1.9s', 1],
+                ['fadeIn', '0.4s', '2.1s', 1],
                 // blocks-1
-                ['fadeInLeft', '0.3s', '2.3s', 1],
-                ['fadeInRightSmall', '0.3s', '2.6s', 1],
-                ['fadeIn', '0.2s', '2.9s', 1],
-                ['fadeIn', '0.2s', '3.1s', 1],
+                ['fadeInLeft', '0.3s', '2.6s', 1],
+                ['fadeInRightSmall', '0.3s', '2.9s', 1],
+                ['fadeIn', '0.2s', '3.2s', 1],
+                ['fadeIn', '0.2s', '3.4s', 1],
                 // blocks-2
-                ['zoomIn', '0.3s', '3.3s', 1],
-                ['fadeIn', '0.2s', '3.6s', 1],
-                ['fadeIn', '0.2s', '3.8s', 1],
+                ['zoomIn', '0.3s', '3.6s', 1],
+                ['fadeIn', '0.2s', '3.9s', 1],
+                ['fadeIn', '0.2s', '4.1s', 1],
                 // blocks-3
-                ['fadeIn', '0.3s', '4s', 1],
-                ['fadeIn', '0.2s', '4.3s', 1],
-                ['fadeIn', '0.2s', '4.5s', 1],
+                ['fadeIn', '0.3s', '4.3s', 1],
+                ['fadeIn', '0.2s', '4.6s', 1],
+                ['fadeIn', '0.2s', '4.8s', 1],
                 // blocks-4
-                ['fadeInUpSmall', '0.3s', '4.7s', 1],
-                ['fadeIn', '0.2s', '5s', 1],
-                ['fadeIn', '0.2s', '5.2s', 1]
+                ['fadeInUpSmall', '0.3s', '5s', 1],
+                ['fadeIn', '0.2s', '5.3s', 1],
+                ['fadeIn', '0.2s', '5.5s', 1]
             ],
             // P6 五星邂逅
             [
@@ -206,9 +202,7 @@ window.onload = function() {
                 nextBoxes = Array.prototype.slice.call(swiper.slides[nextIndex].querySelectorAll('.ani')),
                 boxes = prevBoxes.concat(nextBoxes);
             for (var i = 0, boxesLen = boxes.length; i < boxesLen; i++) {
-                if (boxes[i].attributes['style']) {
-                    boxes[i].attributes['style'].value = 'hidden';
-                }
+                boxes[i].style.cssText = 'hidden';
                 if (boxes[i].tagName === 'path') {
                     boxes[i].className.baseVal = 'ani resize';
                 } else {
@@ -246,7 +240,6 @@ window.onload = function() {
                 trueIndex = activeIndex;
             }
 
-
             for (var i = 0, bLen = b.length; i < bLen; i++) {
                 b[i].style.visibility = 'visible';
                 effect = animateParas[trueIndex-1][i][0];
@@ -255,25 +248,20 @@ window.onload = function() {
                 } else {
                     b[i].className += ' animated '+ effect;
                 }
-                style = b[i].attributes['style'].value;
                 duration = animateParas[trueIndex-1][i][1];
                 delay = animateParas[trueIndex-1][i][2];
                 iteration = animateParas[trueIndex-1][i][3];
-                style += 'animation-duration:' + duration + ';-webkit-animation-duration:' + duration + ';' + 'animation-delay:' + delay + ';-webkit-animation-delay:' + delay + ';' + 'animation-iteration-count:' + iteration + ';-webkit-animation-iteration-count:' + iteration;
-                b[i].setAttribute('style', style);
+                b[i].style.cssText += 'animation-duration:' + duration + ';-webkit-animation-duration:' + duration + ';' + 'animation-delay:' + delay + ';-webkit-animation-delay:' + delay + ';' + 'animation-iteration-count:' + iteration + ';-webkit-animation-iteration-count:' + iteration;
             }
 
 
             // 因为标有 .ani 和 .resize 的元素不是完全匹配的，所以这里要分两步处理
             for (var j = 0, resizeBoxesLen = resizeBoxes.length; j < resizeBoxesLen; j++) {
-                widthProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('width');
-                resizeBoxes[j].style.width = parseInt(widthProp)*scaleW+'px';
-                heightProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('height');
-                resizeBoxes[j].style.height = parseInt(heightProp)*scaleH+'px';
-                topProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('top');
-                resizeBoxes[j].style.top = parseInt(topProp)*scaleH+'px';
-                leftProp = window.getComputedStyle(resizeBoxes[j]).getPropertyValue('left');
-                resizeBoxes[j].style.left = parseInt(leftProp)*scaleH+'px';
+                widthProp = 'width:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('width'))*scaleH + 'px;';
+                heightProp = 'height:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('height'))*scaleH + 'px;';
+                topProp = 'top:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('top'))*scaleH + 'px;';
+                marginleftProp = 'margin-left:' + parseInt(window.getComputedStyle(resizeBoxes[j]).getPropertyValue('margin-left'))*scaleH + 'px;';
+                resizeBoxes[j].style.cssText += widthProp + heightProp + topProp + marginleftProp;
             }
 
         }
