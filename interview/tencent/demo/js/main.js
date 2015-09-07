@@ -6,8 +6,8 @@ window.onload = function() {
         loadingPage.style.cssText += 'animation-name: fadeOutDisappear; -webkit-animation-name: fadeOutDisappear; animation-duration: 1s;-webkit-animation-duration: 1s;animation-iteration-count: 1; -webkit-animation-iteration-count: 1';
     })();
 
-    var scaleW = screen.width/320,
-        scaleH = (screen.height/568),
+    var scaleW = window.innerWidth/320,
+        scaleH = window.innerHeight/568,
         widthProp,
         heightProp,
         topProp,
@@ -22,8 +22,8 @@ window.onload = function() {
         // console.log(document.height);
         // console.log(screen.width);
         // console.log(screen.height);
-        console.log(scaleW);
-        console.log(scaleH);
+        // console.log(scaleW);
+        // console.log(scaleH);
 
 
         widthProp = 'width:' + parseInt(window.getComputedStyle(arrowEle).getPropertyValue('width'))*scaleH + 'px;';
