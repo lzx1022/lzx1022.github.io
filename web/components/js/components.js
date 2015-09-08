@@ -144,7 +144,7 @@
             });
         },
 
-        invitePanel: function() {
+        invitePanel: function(invitePanelIdName) {
             ajax('invite_panel.json', {
                 method: 'GET',
                 success: function(response) {
@@ -155,7 +155,7 @@
                             invited: [],
                             recommended: (jsonObj.recommended).concat(jsonObj.invited)
                         },
-                        invitePanel = document.getElementById('invite-panel');
+                        invitePanel = document.querySelector(invitePanelIdName);
                     invitePanel.innerHTML = '<div class="invite-title"><span class="invite-input"><input placeholder="搜索你想邀请的人" type="text"><i></i></span><span class="invite-status"></span></div><h3>推荐人选</h3><ul class="invite-suggest"></ul><div class="invite-arrow"><a href="">上一页</a><a href="">下一页</a></div>';
                     var inviteStatus = invitePanel.getElementsByClassName('invite-status')[0],
                         inviteSuggest = invitePanel.getElementsByClassName('invite-suggest')[0];
