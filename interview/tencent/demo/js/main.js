@@ -225,7 +225,7 @@ window.onload = function() {
                 if ((resizeBoxes[j].className === 'resize' || resizeBoxes[j].className.baseVal === 'resize') && resizeBoxes[j].id !== 'arrow') {
                     resizeBoxes[j].style.cssText = 'hidden';
                 }
-            };
+            }
         }
 
         function swiperAnimate(swiper) {
@@ -236,7 +236,6 @@ window.onload = function() {
                 trueIndex,
                 b = swiper.slides[activeIndex].querySelectorAll('.ani'),
                 resizeBoxes = swiper.slides[activeIndex].querySelectorAll('.resize'),
-                style,
                 effect,
                 duration,
                 iteration,
@@ -325,8 +324,8 @@ window.onload = function() {
                     break;
             }
         });
-    }, 1000)
+    }, 1000);
 
-}
+};
 
 })();
