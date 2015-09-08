@@ -145,7 +145,7 @@
         },
 
         invitePanel: function() {
-            ajax('../../js/invite_panel.json', {
+            ajax('invite_panel.json', {
                 method: 'GET',
                 success: function(response) {
 
