@@ -1,0 +1,44 @@
+/*
+
+$color-grayscale-0: #fff;        //.div-hide 的前景色; #copyright 里面 LZX 的颜色;
+$color-grayscale-1: #e5e5e5;     //导航栏的 border 颜色
+$color-grayscale-2: #a7a7a7;     //logo 里面 keep learning 文字的颜色; footer 的前景色; <pre> 前景色; slide 里面箭头图片的背景色
+$color-grayscale-3: #5b5b5b;     //导航栏里面字体颜色;
+$color-grayscale-4: #3c3c3c;     //body 前景色(字体颜色)
+$color-grayscale-10: #000;
+$color-opacity: rgba(0, 0, 0, .2);
+
+*/
+
+
+
+
+#img-portrait {
+    box-sizing: border-box;
+    display: block;
+    width: 200px;
+    height: 200px;
+    margin: 40px auto;
+    border: 2px solid #fff;
+    border-radius: 100px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+}
+
+.reveal section img {
+    border: none;
+}
+
+.reveal img {
+    max-width: 80%;
+    max-height: 80%;
+}
+
+.reveal .img-vertical {
+    width: 400px;
+}
+
+.qa > p {
+    width: 590px;
+    text-align: left;
+    margin: 30px auto;
+}
