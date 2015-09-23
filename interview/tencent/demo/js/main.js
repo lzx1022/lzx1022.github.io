@@ -13,6 +13,8 @@ window.onload = function() {
         topProp,
         marginleftProp,
         arrowEle = document.getElementById('arrow');
+        console.log(scaleW);
+        console.log(scaleH);
 
         // console.log(window.innerWidth);
         // console.log(window.innerHeight);
