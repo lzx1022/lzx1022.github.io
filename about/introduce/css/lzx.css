@@ -42,3 +42,28 @@ $color-opacity: rgba(0, 0, 0, .2);
     text-align: left;
     margin: 30px auto;
 }
+
+.slides > section:nth-of-type(1) p {
+    text-align: left;
+}
+
+.img-small {
+    display: inline;
+    line-height: 1.2em!important;
+    width: 30px;
+    vertical-align: top!important;
+    margin: 0!important;
+    padding-top: -10px!important;
+}
+
+/*.slides > section:nth-of-type(8) {*/
+.jobs {
+    background: linear-gradient(0deg, #fff, #0b0380 10%, #080255);
+}
+.jobs p {
+    color: #fff;
+}
+
+.mianze {
+    font-size: 90%!important;
+}
