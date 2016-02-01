@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="format-detection" content="telphone=no, email=no">
+        <title>总办新春H5</title>
+        <link rel="icon" href="../process/logo.ico">
+        <link rel="stylesheet" href="../dist/css/main-2.min.css">
+    </head>
+    <body>
+        <script>
+            !function() {
+             var count = 0;
+                          /*
+                # 按照宽高比例设定html字体
+                # 说明：
+                   - baseWidth和baseHeiht是设计稿尺寸
+                   - baseFontSize是720设计稿下html的fontsize
+                   - 按照当前屏幕宽高比跟设计稿宽高比较小的值作为缩放比例
+             */
+             function setHtmlFontSize(callback) {
+                // var baseWidth = 720, baseHeiht = 1280, baseFontSize = 100, newSize = 100,sacle = 1;
+                var baseWidth = 320, baseHeiht = 568, baseFontSize = 100, newSize = 100,sacle = 1;
+
+                 //如果此时屏幕宽度不准确，就尝试再次获取分辨率，只尝试10次，否则使用innerWidth计算
+                if(document.body.clientWidth !== window.innerWidth && count < 10) {
+                   document.body.style.display = "none";
+                   window.setTimeout(setHtmlFontSize, 0);
+                   count++;
+                }
+                else {
+                    var sacle = Math.min(window.innerWidth / baseWidth, window.innerHeight / baseHeiht),
+                    newSize = parseInt( sacle * 10000 * baseFontSize ) / 20000;
+                    document.body.style.display = "none";
+                    setTimeout(function() {
+                      document.body.style.display = "";
+                      if(callback) {
+                        callback();
+                      }
+                      document.documentElement.style.fontSize = newSize + "px";
+                   }, 0);
+                }
+             }
+             setHtmlFontSize();
+            }();
+
+            // (function (doc, win) {
+            //   var docEl = doc.documentElement,
+            //       resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            //       recalc = function () {
+            //           var clientWidth = docEl.clientWidth;
+            //           if (!clientWidth) return;
+            //           docEl.style.fontSize = 100 * (clientWidth / 375) + 'px';
+            //       };
+            //   // Abort if browser does not support addEventListener
+            //   if (!doc.addEventListener) return;
+            //   win.addEventListener(resizeEvt, recalc, false);
+            //   doc.addEventListener('DOMContentLoaded', recalc, false);
+            // })(document, window);
+        </script>
+
+        <div class="container">
+            <div class="decoration">
+                <div class="coins">
+                    <div class="coin left"></div>
+                    <div class="coin right"></div>
+                </div>
+                <div class="circles">
+                    <div class="circle lt">
+                        <div class="circle_bg"></div>
+                        <div class="circle_center"></div>
+                    </div>
+                    <div class="circle rt">
+                        <div class="circle_bg"></div>
+                        <div class="circle_center"></div>
+                    </div>
+                    <div class="circle lb">
+                        <div class="circle_bg"></div>
+                        <div class="circle_center"></div>
+                    </div>
+                    <div class="circle rb">
+                        <div class="circle_bg"></div>
+                        <div class="circle_center"></div>
+                    </div>
+                </div>
+                <div class="flower"></div>
+                <div class="frames">
+                    <div class="frame lt"></div>
+                    <div class="frame rt"></div>
+                    <div class="frame lb"></div>
+                    <div class="frame rb"></div>
+                </div>
+                <div class="chips">
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                    <div class="chip"></div>
+                </div>
+            </div>
+            <div class="video">
+                <div class="lantern left"></div>
+                <div class="lantern right"></div>
+                <div class="video_inner">
+                    <video controls src="http://183.60.23.23/vhot2.qqvideo.tc.qq.com/v0147nfng4c.m701.mp4?vkey=F81A1D52306C5C75A1B1E5F47F66EC15BC0EA07158D855C2E00DB3B9DD182888063608B85391FB2E4AB8590D027867A29DE184D4822E4F888E2CA6F23C3D6F3388C8E7B461E2DF7BD4D8A5743CD453310DBF696EE3758D2B&br=29&platform=2&fmt=auto&level=10&sdtfrom=v3010"></video>
+                    <div class="inner_cover">
+                        <div class="cover_play"></div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="text">
+                <h1>总办来拜年</h1>
+                <div>
+                    <p>猴年到了，</p>
+                    <p>祝大家猴年猴开心，猴有福，猴有财。</p>
+                    <p>愿所有的咸鱼都能畅游于梦想，</p>
+                    <p>所有有情人终成孩儿ta爸妈，</p>
+                    <p>每一粒尘埃都有属于自己的星辰大海。</p>
+                </div>
+            </div>
+            <div class="copyright"></div>
+        </div>
+
+        <div class="landscape">
+            <div class="landscape_phone"></div>
+            <div class="landscape_rotate"></div>
+            <div class="landscape_text">竖屏体验效果更佳</div>
+        </div>
+
+        <div class="soundbox">
+            <a id="bgMusicContr" class="music" href="jacascript:;"></a>
+            <audio id="bgMusic" src="../dist/audio/boss_newyear_2016.mp3" autoplay loop preload></audio>
+        </div>
+    </body>
+    <script src="../dist/js/main.js"></script>
+</html>
